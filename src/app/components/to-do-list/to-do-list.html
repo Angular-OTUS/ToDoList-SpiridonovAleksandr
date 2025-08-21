@@ -1,0 +1,15 @@
+<div class="todo-component">
+  <h1>Todo list</h1>
+  <ul class="task-list">
+    @for (toDo of toDoList; track $index) {
+      <li class="task-item">
+        <span class="task-text">{{ toDo }}</span>
+        <button class="delete-btn">Delete</button>
+      </li>
+    }
+  </ul>
+  <div class="add-task-container">
+    <input type="text" placeholder="Новая задача..." class="new-task-input" />
+    <button class="add-btn">Add</button>
+  </div>
+</div>
