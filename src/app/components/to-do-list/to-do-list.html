@@ -3,13 +3,24 @@
   <ul class="task-list">
     @for (toDo of toDoList; track $index) {
       <li class="task-item">
-        <span class="task-text">{{ toDo }}</span>
-        <button class="delete-btn">Delete</button>
+        <span class="task-text">{{ toDo.text }}</span>
+        <button class="btn delete-btn">Delete</button>
       </li>
     }
   </ul>
   <div class="add-task-container">
-    <input type="text" placeholder="Новая задача..." class="new-task-input" />
-    <button class="add-btn">Add</button>
+    <input
+      type="text"
+      placeholder="Новая задача..."
+      class="new-task-input"
+      [(ngModel)]="newTask"
+    />
+    <button
+      type="button"
+      class="btn add-btn"
+      [disabled]="isNewTaskEmpty()"
+    >
+      Add
+    </button>
   </div>
 </div>

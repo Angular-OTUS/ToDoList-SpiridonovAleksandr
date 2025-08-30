@@ -17,6 +17,17 @@
     text-align: center;
   }
 
+  .btn {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    transition: background-color 0.2s ease-in-out;
+
+
+  }
+
   .task-list {
     width: 100%;
     max-width: 400px;
@@ -44,15 +55,10 @@
       }
 
       .delete-btn {
-        cursor: pointer;
-        background-color: transparent;
-        border: none;
-        color: red;
-        font-size: 1.2em;
-        transition: color 0.2s ease-in-out;
+        background-color: #ff7a5c;
 
         &:hover {
-          color: darkred;
+          background-color: #e66b4d;
         }
       }
     }
@@ -79,16 +85,14 @@
 
     .add-btn {
       flex: 1;
-      padding: 0.5rem 1rem;
-      background-color: #ff7a5c;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.2s ease-in-out;
+      background-color: darkseagreen;
 
-      &:hover {
-        background-color: #e66b4d;
+      &:hover:not([disabled]) {
+        background-color: green;
+      }
+
+      &:disabled {
+        opacity: 0.5;
       }
     }
   }
