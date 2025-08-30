@@ -1,11 +1,13 @@
 import { Component, computed, model, ModelSignal, Signal } from '@angular/core';
 import { ToDo } from '../../model/to-do';
 import { FormsModule } from '@angular/forms';
+import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
 
 @Component({
   selector: 'app-to-do-list',
   imports: [
-    FormsModule
+    FormsModule,
+    ToDoListItem
   ],
   templateUrl: './to-do-list.html',
   styleUrl: './to-do-list.scss'

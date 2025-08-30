@@ -2,15 +2,10 @@
   <h1>Todo list</h1>
   <ul class="task-list">
     @for (toDo of toDoList; track $index) {
-      <li class="task-item">
-        <span class="task-text">{{ toDo.text }}</span>
-        <button
-          class="btn delete-btn"
-          (click)="deleteTask(toDo.id)"
-        >
-          Delete
-        </button>
-      </li>
+      <app-to-do-list-item
+        [item]="toDo"
+        (taskToRemove)="deleteTask($event)"
+      />
     }
   </ul>
   <div class="add-task-container">

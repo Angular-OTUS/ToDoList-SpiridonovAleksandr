@@ -1,0 +1,9 @@
+<li class="task-item">
+  <span class="task-text">{{ item().text }}</span>
+  <button
+    class="btn delete-btn"
+    (click)="onDelete(item().id)"
+  >
+    Delete
+  </button>
+</li>
