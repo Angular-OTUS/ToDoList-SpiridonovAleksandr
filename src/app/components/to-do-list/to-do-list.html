@@ -4,7 +4,12 @@
     @for (toDo of toDoList; track $index) {
       <li class="task-item">
         <span class="task-text">{{ toDo.text }}</span>
-        <button class="btn delete-btn">Delete</button>
+        <button
+          class="btn delete-btn"
+          (click)="deleteTask(toDo.id)"
+        >
+          Delete
+        </button>
       </li>
     }
   </ul>
@@ -19,6 +24,7 @@
       type="button"
       class="btn add-btn"
       [disabled]="isNewTaskEmpty()"
+      (click)="addTask()"
     >
       Add
     </button>

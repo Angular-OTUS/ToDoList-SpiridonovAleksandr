@@ -28,4 +28,19 @@ export class ToDoList {
       text: 'Построить тещу'
     }
   ];
+
+  protected addTask() {
+    const ids = this.toDoList.map(item => item.id);
+    const maxId = Math.max(...ids);
+    const newToDo = { id: maxId + 1, text: this.newTask() };
+    this.toDoList.push(newToDo);
+    this.newTask.set('');
+  }
+
+  protected deleteTask(id: number) {
+    const index = this.toDoList.findIndex(item => item.id === id);
+    if (index > -1) {
+      this.toDoList.splice(index, 1);
+    }
+  }
 }
