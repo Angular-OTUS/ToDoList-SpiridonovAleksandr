@@ -1,15 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, computed, model, ModelSignal, Signal } from '@angular/core';
+import { ToDo } from '../../model/to-do';
+import { FormsModule } from '@angular/forms';
+import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
 
 @Component({
   selector: 'app-to-do-list',
-  imports: [],
+  imports: [
+    FormsModule,
+    ToDoListItem
+  ],
   templateUrl: './to-do-list.html',
   styleUrl: './to-do-list.scss'
 })
 export class ToDoList {
-  protected readonly toDoList = [
-    'Посадить печень',
-    'Вырастить пузо',
-    'Построить тещу'
+  protected newTask: ModelSignal<string> = model<string>('');
+  protected isNewTaskEmpty: Signal<boolean> = computed(() => this.newTask().length === 0);
+
+  protected readonly toDoList: ToDo[] = [
+    {
+      id: 1,
+      text: 'Посадить печень'
+    },
+    {
+      id: 2,
+      text: 'Вырастить пузо'
+    },
+    {
+      id: 3,
+      text: 'Построить тещу'
+    }
   ];
+
+  protected addTask() {
+    const ids = this.toDoList.map(item => item.id);
+    const maxId = Math.max(...ids);
+    const newToDo = { id: maxId + 1, text: this.newTask() };
+    this.toDoList.push(newToDo);
+    this.newTask.set('');
+  }
+
+  protected deleteTask(id: number) {
+    const index = this.toDoList.findIndex(item => item.id === id);
+    if (index > -1) {
+      this.toDoList.splice(index, 1);
+    }
+  }
 }
