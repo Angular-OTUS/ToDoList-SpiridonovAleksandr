@@ -19,13 +19,11 @@
       class="new-task-input"
       [(ngModel)]="newTask"
     />
-    <button
-      type="button"
-      class="btn add-btn"
-      [disabled]="isNewTaskEmpty()"
-      (click)="addTask()"
-    >
-      Add
-    </button>
+    <app-button
+      title="Add"
+      actionType="add"
+      [isDisabled]="isNewTaskEmpty()"
+      (clicked)="addTask()"
+    />
   </div>
 </div>

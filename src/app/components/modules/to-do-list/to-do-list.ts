@@ -1,15 +1,17 @@
 import { Component, computed, model, ModelSignal, OnInit, signal, Signal, WritableSignal } from '@angular/core';
-import { ToDo } from '../../model/to-do';
+import { ToDo } from '../../../model/to-do';
 import { FormsModule } from '@angular/forms';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Button } from '../../shared/button/button';
 
 @Component({
   selector: 'app-to-do-list',
   imports: [
     FormsModule,
     MatProgressSpinnerModule,
-    ToDoListItem
+    ToDoListItem,
+    Button
   ],
   templateUrl: './to-do-list.html',
   styleUrl: './to-do-list.scss'

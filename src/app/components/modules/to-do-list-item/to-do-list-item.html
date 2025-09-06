@@ -1,0 +1,8 @@
+<li class="task-item">
+  <span class="task-text">{{ item().text }}</span>
+  <app-button
+    title="Delete"
+    actionType="delete"
+    (clicked)="onDelete(item().id)"
+  />
+</li>

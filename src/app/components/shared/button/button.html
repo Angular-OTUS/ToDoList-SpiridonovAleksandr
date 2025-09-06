@@ -1,0 +1,9 @@
+<button
+  type="button"
+  class="btn"
+  [disabled]="isDisabled()"
+  [ngClass]="[actionClass()]"
+  (click)="clicked.emit()"
+>
+  {{ title() }}
+</button>
