@@ -1,20 +1,23 @@
-import { Component, computed, model, ModelSignal, Signal } from '@angular/core';
+import { Component, computed, model, ModelSignal, OnInit, signal, Signal, WritableSignal } from '@angular/core';
 import { ToDo } from '../../model/to-do';
 import { FormsModule } from '@angular/forms';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-to-do-list',
   imports: [
     FormsModule,
+    MatProgressSpinnerModule,
     ToDoListItem
   ],
   templateUrl: './to-do-list.html',
   styleUrl: './to-do-list.scss'
 })
-export class ToDoList {
+export class ToDoList implements OnInit {
   protected newTask: ModelSignal<string> = model<string>('');
   protected isNewTaskEmpty: Signal<boolean> = computed(() => this.newTask().length === 0);
+  protected isLoading: WritableSignal<boolean> = signal<boolean>(true);
 
   protected readonly toDoList: ToDo[] = [
     {
@@ -30,6 +33,12 @@ export class ToDoList {
       text: 'Построить тещу'
     }
   ];
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.isLoading.set(false);
+    }, 500);
+  }
 
   protected addTask() {
     const ids = this.toDoList.map(item => item.id);

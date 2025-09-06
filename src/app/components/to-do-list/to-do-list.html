@@ -1,13 +1,17 @@
 <div class="todo-component">
   <h1>Todo list</h1>
-  <ul class="task-list">
-    @for (toDo of toDoList; track $index) {
-      <app-to-do-list-item
-        [item]="toDo"
-        (taskToRemove)="deleteTask($event)"
-      />
-    }
-  </ul>
+  @if (isLoading()) {
+    <mat-spinner/>
+  } @else {
+    <ul class="task-list">
+      @for (toDo of toDoList; track $index) {
+        <app-to-do-list-item
+          [item]="toDo"
+          (taskToRemove)="deleteTask($event)"
+        />
+      }
+    </ul>
+  }
   <div class="add-task-container">
     <input
       type="text"
