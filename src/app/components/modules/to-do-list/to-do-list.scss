@@ -1,12 +1,3 @@
-:host::ng-deep .btn {
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  transition: background-color 0.2s ease-in-out;
-}
-
 .todo-component {
   display: flex;
   flex-direction: column;
@@ -41,7 +32,7 @@
     max-width: 400px;
 
     .new-task-input {
-      flex: 3;
+      flex: 2.9;
       padding: 0.5rem;
       border-radius: 4px;
       outline: none;
@@ -52,17 +43,8 @@
       }
     }
 
-    .add-btn {
-      flex: 1;
-      background-color: darkseagreen;
-
-      &:hover:not([disabled]) {
-        background-color: green;
-      }
-
-      &:disabled {
-        opacity: 0.5;
-      }
+    app-button {
+      flex: 1.1;
     }
   }
 }

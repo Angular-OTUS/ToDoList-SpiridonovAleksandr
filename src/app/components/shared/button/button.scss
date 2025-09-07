@@ -1,0 +1,29 @@
+.btn {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  transition: background-color 0.2s ease-in-out;
+  width: 100%;
+}
+
+.add-btn {
+  background-color: darkseagreen;
+
+  &:hover:not([disabled]) {
+    background-color: green;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.delete-btn {
+  background-color: #ff7a5c;
+
+  &:hover {
+    background-color: #e66b4d;
+  }
+}

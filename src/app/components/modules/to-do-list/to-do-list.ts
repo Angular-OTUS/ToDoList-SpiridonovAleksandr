@@ -1,35 +1,46 @@
-import { Component, computed, model, ModelSignal, Signal } from '@angular/core';
-import { ToDo } from '../../model/to-do';
+import { Component, computed, model, ModelSignal, OnInit, signal, Signal, WritableSignal } from '@angular/core';
+import { ToDo } from '../../../model/to-do';
 import { FormsModule } from '@angular/forms';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Button } from '../../shared/button/button';
 
 @Component({
   selector: 'app-to-do-list',
   imports: [
     FormsModule,
-    ToDoListItem
+    MatProgressSpinnerModule,
+    ToDoListItem,
+    Button,
   ],
   templateUrl: './to-do-list.html',
-  styleUrl: './to-do-list.scss'
+  styleUrl: './to-do-list.scss',
 })
-export class ToDoList {
+export class ToDoList implements OnInit {
   protected newTask: ModelSignal<string> = model<string>('');
   protected isNewTaskEmpty: Signal<boolean> = computed(() => this.newTask().length === 0);
+  protected isLoading: WritableSignal<boolean> = signal<boolean>(true);
 
   protected readonly toDoList: ToDo[] = [
     {
       id: 1,
-      text: 'Посадить печень'
+      text: 'Посадить печень',
     },
     {
       id: 2,
-      text: 'Вырастить пузо'
+      text: 'Вырастить пузо',
     },
     {
       id: 3,
-      text: 'Построить тещу'
-    }
+      text: 'Построить тещу',
+    },
   ];
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.isLoading.set(false);
+    }, 500);
+  }
 
   protected addTask() {
     const ids = this.toDoList.map(item => item.id);
