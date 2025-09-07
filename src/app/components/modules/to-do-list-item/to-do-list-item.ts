@@ -5,10 +5,10 @@ import { Button } from '../../shared/button/button';
 @Component({
   selector: 'app-to-do-list-item',
   imports: [
-    Button
+    Button,
   ],
   templateUrl: './to-do-list-item.html',
-  styleUrl: './to-do-list-item.scss'
+  styleUrl: './to-do-list-item.scss',
 })
 export class ToDoListItem {
   public item: InputSignal<ToDo> = input.required<ToDo>();

@@ -11,10 +11,10 @@ import { Button } from '../../shared/button/button';
     FormsModule,
     MatProgressSpinnerModule,
     ToDoListItem,
-    Button
+    Button,
   ],
   templateUrl: './to-do-list.html',
-  styleUrl: './to-do-list.scss'
+  styleUrl: './to-do-list.scss',
 })
 export class ToDoList implements OnInit {
   protected newTask: ModelSignal<string> = model<string>('');
@@ -24,16 +24,16 @@ export class ToDoList implements OnInit {
   protected readonly toDoList: ToDo[] = [
     {
       id: 1,
-      text: 'Посадить печень'
+      text: 'Посадить печень',
     },
     {
       id: 2,
-      text: 'Вырастить пузо'
+      text: 'Вырастить пузо',
     },
     {
       id: 3,
-      text: 'Построить тещу'
-    }
+      text: 'Построить тещу',
+    },
   ];
 
   ngOnInit(): void {

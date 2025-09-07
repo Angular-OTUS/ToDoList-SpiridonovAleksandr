@@ -6,10 +6,10 @@ type ButtonAction = 'add'|'delete';
 @Component({
   selector: 'app-button',
   imports: [
-    NgClass
+    NgClass,
   ],
   templateUrl: './button.html',
-  styleUrl: './button.scss'
+  styleUrl: './button.scss',
 })
 export class Button {
   public title: InputSignal<string> = input.required<string>();
