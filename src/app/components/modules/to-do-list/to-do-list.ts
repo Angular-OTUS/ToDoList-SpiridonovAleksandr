@@ -39,11 +39,7 @@ export class ToDoList implements OnInit {
   protected selectedItemId: WritableSignal<number | null> = signal<number | null>(null);
   protected description: Signal<string> = computed(() => {
     const id = this.selectedItemId();
-    if (id != null) {
-      const selectedDescription = this.toDoList.find(item => item.id === id)?.description;
-      return (selectedDescription && selectedDescription !== '') ? selectedDescription : EMPTY_DESCRIPTION;
-    }
-    return DEFAULT_DESCRIPTION;
+    return this.getDescription(id);
   });
 
   protected readonly toDoList: ToDo[] = [
@@ -84,9 +80,25 @@ export class ToDoList implements OnInit {
     if (index > -1) {
       this.toDoList.splice(index, 1);
     }
+    this.selectedItemId.set(null);
   }
 
   protected onItemClick(id: number) {
     this.selectedItemId.set(id);
+  }
+
+  private getDescription(id: number | null): string {
+    if (id != null) {
+      const selectedDescription = this.toDoList.find(item => item.id === id)?.description;
+      switch (selectedDescription) {
+        case undefined:
+          return DEFAULT_DESCRIPTION;
+        case '':
+          return EMPTY_DESCRIPTION;
+        default:
+          return selectedDescription;
+      }
+    }
+    return DEFAULT_DESCRIPTION;
   }
 }

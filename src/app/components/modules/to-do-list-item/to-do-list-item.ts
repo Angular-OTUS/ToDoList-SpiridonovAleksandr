@@ -13,6 +13,7 @@ import { Button } from '../../shared/button/button';
 })
 export class ToDoListItem {
   public item: InputSignal<ToDo> = input.required<ToDo>();
+  public isSelected: InputSignal<boolean> = input<boolean>(false);
   protected taskToRemove: OutputEmitterRef<number> = output<number>();
 
   protected onDelete(id: number) {

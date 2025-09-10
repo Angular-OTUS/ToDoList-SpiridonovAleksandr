@@ -1,4 +1,7 @@
-<li class="task-item">
+<li
+  class="task-item"
+  [class.selected]="isSelected()"
+>
   <span class="task-text">{{ item().text }}</span>
   <app-button
     title="Delete"

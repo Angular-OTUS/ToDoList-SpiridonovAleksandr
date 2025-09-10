@@ -2,6 +2,10 @@
   <h1>Todo list</h1>
   @if (isLoading()) {
     <mat-spinner/>
+  } @else if (toDoList.length === 0) {
+    <div class="task-container-empty">
+      <span>Список задач пуст</span>
+    </div>
   } @else {
     <div class="task-container">
       <ul class="task-list">
@@ -9,6 +13,7 @@
           <app-to-do-list-item
             [item]="toDo"
             (taskToRemove)="deleteTask($event)"
+            [isSelected]="toDo.id === selectedItemId()"
             (click)="onItemClick(toDo.id)"
           />
         }

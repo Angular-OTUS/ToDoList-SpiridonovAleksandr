@@ -17,6 +17,12 @@
     text-align: center;
   }
 
+  .task-container-empty {
+    max-width: 600px;
+    text-align: center;
+    font-size: large;
+  }
+
   .task-container {
     display: flex;
     gap: 1rem;
