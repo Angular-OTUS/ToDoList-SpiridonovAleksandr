@@ -1,9 +1,22 @@
-import { Component, computed, model, ModelSignal, OnInit, signal, Signal, WritableSignal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  model,
+  ModelSignal,
+  OnInit,
+  signal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
 import { ToDo } from '../../../model/to-do';
 import { FormsModule } from '@angular/forms';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Button } from '../../shared/button/button';
+
+const DEFAULT_DESCRIPTION = 'Описание';
+const EMPTY_DESCRIPTION = 'Не заполнено';
 
 @Component({
   selector: 'app-to-do-list',
@@ -15,24 +28,39 @@ import { Button } from '../../shared/button/button';
   ],
   templateUrl: './to-do-list.html',
   styleUrl: './to-do-list.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToDoList implements OnInit {
   protected newTask: ModelSignal<string> = model<string>('');
+  protected newTaskDescription: ModelSignal<string> = model<string>('');
   protected isNewTaskEmpty: Signal<boolean> = computed(() => this.newTask().length === 0);
   protected isLoading: WritableSignal<boolean> = signal<boolean>(true);
+
+  protected selectedItemId: WritableSignal<number | null> = signal<number | null>(null);
+  protected description: Signal<string> = computed(() => {
+    const id = this.selectedItemId();
+    if (id != null) {
+      const selectedDescription = this.toDoList.find(item => item.id === id)?.description;
+      return (selectedDescription && selectedDescription !== '') ? selectedDescription : EMPTY_DESCRIPTION;
+    }
+    return DEFAULT_DESCRIPTION;
+  });
 
   protected readonly toDoList: ToDo[] = [
     {
       id: 1,
       text: 'Посадить печень',
+      description: 'Пить много спиртосодержащих напитков - пива, водки и прочего',
     },
     {
       id: 2,
       text: 'Вырастить пузо',
+      description: 'Жрать много жирного, сладкого и жареного',
     },
     {
       id: 3,
       text: 'Построить тещу',
+      description: 'Быть брутальным мачо, разговаривать грозным голосом сдвинув брови',
     },
   ];
 
@@ -45,9 +73,10 @@ export class ToDoList implements OnInit {
   protected addTask() {
     const ids = this.toDoList.map(item => item.id);
     const maxId = Math.max(...ids);
-    const newToDo = { id: maxId + 1, text: this.newTask() };
+    const newToDo = { id: maxId + 1, text: this.newTask(), description: this.newTaskDescription() };
     this.toDoList.push(newToDo);
     this.newTask.set('');
+    this.newTaskDescription.set('');
   }
 
   protected deleteTask(id: number) {
@@ -55,5 +84,9 @@ export class ToDoList implements OnInit {
     if (index > -1) {
       this.toDoList.splice(index, 1);
     }
+  }
+
+  protected onItemClick(id: number) {
+    this.selectedItemId.set(id);
   }
 }
