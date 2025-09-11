@@ -4,6 +4,7 @@
   [disabled]="isDisabled()"
   [ngClass]="[actionClass()]"
   (click)="clicked.emit()"
+  [appTooltip]="`Жмякни кнопочку для ${(actionType() === 'add') ? 'добавления' : 'удаления'}`"
 >
   {{ title() }}
 </button>

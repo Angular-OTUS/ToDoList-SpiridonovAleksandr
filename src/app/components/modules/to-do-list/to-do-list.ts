@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Button } from '../../shared/button/button';
+import { Tooltip } from '../../../directives/tooltip';
 
 const DEFAULT_DESCRIPTION = 'Описание';
 const EMPTY_DESCRIPTION = 'Не заполнено';
@@ -25,6 +26,7 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
     MatProgressSpinnerModule,
     ToDoListItem,
     Button,
+    Tooltip,
   ],
   templateUrl: './to-do-list.html',
   styleUrl: './to-do-list.scss',
