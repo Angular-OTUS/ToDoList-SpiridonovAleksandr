@@ -2,15 +2,27 @@
   <h1>Todo list</h1>
   @if (isLoading()) {
     <mat-spinner/>
+  } @else if (toDoList.length === 0) {
+    <div class="task-container-empty">
+      <span>Список задач пуст</span>
+    </div>
   } @else {
-    <ul class="task-list">
-      @for (toDo of toDoList; track $index) {
-        <app-to-do-list-item
-          [item]="toDo"
-          (taskToRemove)="deleteTask($event)"
-        />
-      }
-    </ul>
+    <div class="task-container">
+      <ul class="task-list">
+        @for (toDo of toDoList; track $index) {
+          <app-to-do-list-item
+            [item]="toDo"
+            (taskToRemove)="deleteTask($event)"
+            [isSelected]="toDo.id === selectedItemId()"
+            (click)="onItemClick(toDo.id)"
+            [appTooltip]="'Тисни здесь, чтоб увидеть описание задачи'"
+          />
+        }
+      </ul>
+      <div class="task-description">
+        <span>{{ description() }}</span>
+      </div>
+    </div>
   }
   <div class="add-task-container">
     <input
@@ -25,5 +37,13 @@
       [isDisabled]="isNewTaskEmpty()"
       (clicked)="addTask()"
     />
+  </div>
+  <div class="add-description-container">
+    <textarea
+      rows="3"
+      placeholder="Добавьте описание задачи..."
+      class="new-description"
+      [(ngModel)]="newTaskDescription"
+    ></textarea>
   </div>
 </div>

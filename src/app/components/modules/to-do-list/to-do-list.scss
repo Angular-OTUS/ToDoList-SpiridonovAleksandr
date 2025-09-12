@@ -6,7 +6,7 @@
   background-color: #fafafa;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: calc(100% / 3);
+  width: calc(100% / 2);
   max-width: 100%;
   margin: 20px auto 0;
 
@@ -17,11 +17,43 @@
     text-align: center;
   }
 
-  .task-list {
+  .task-container-empty {
+    max-width: 600px;
+    text-align: center;
+    font-size: large;
+  }
+
+  .task-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
     width: 100%;
-    max-width: 400px;
-    list-style-type: none;
-    padding-left: 0;
+    max-width: 600px;
+
+    .task-list {
+      flex: 2;
+      width: 100%;
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .task-description {
+      flex: 1;
+      width: 100%;
+      text-align: center;
+      background-color: #fff;
+      padding: 1rem;
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      box-sizing: border-box;
+
+      &:hover {
+        transform: scale(1.02);
+        transition: all 0.2s ease-in-out;
+      }
+    }
   }
 
   .add-task-container {
@@ -29,10 +61,10 @@
     gap: 1rem;
     margin-top: 1rem;
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
 
     .new-task-input {
-      flex: 2.9;
+      flex: 3;
       padding: 0.5rem;
       border-radius: 4px;
       outline: none;
@@ -44,7 +76,26 @@
     }
 
     app-button {
-      flex: 1.1;
+      flex: 1;
+    }
+  }
+
+  .add-description-container {
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 600px;
+
+    .new-description {
+      padding: 0.5rem;
+      border-radius: 4px;
+      outline: none;
+      border: 1px solid #ccc;
+      width: 100%;
+      box-sizing: border-box;
+
+      &::placeholder {
+        color: #aaa;
+      }
     }
   }
 }
