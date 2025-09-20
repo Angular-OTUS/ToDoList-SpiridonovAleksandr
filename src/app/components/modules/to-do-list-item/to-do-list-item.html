@@ -1,11 +1,32 @@
 <li
   class="task-item"
   [class.selected]="isSelected()"
+  (dblclick)="toggleToEditMode()"
 >
+  <ng-container *ngTemplateOutlet="isEditMode() ?  editMode : showMode"></ng-container>
+</li>
+
+<ng-template #showMode>
   <span class="task-text">{{ item().text }}</span>
   <app-button
     title="Delete"
     actionType="delete"
     (clicked)="onDelete($event, item().id)"
   />
-</li>
+</ng-template>
+
+<ng-template #editMode>
+  <div class="update-task-input-container">
+    <input
+      type="text"
+      [(ngModel)]="newText"
+    />
+  </div>
+  <app-button
+    title="Save"
+    actionType="save"
+    class="btn-block"
+    [isDisabled]="isNewTextEmpty()"
+    (clicked)="onSave($event)"
+  />
+</ng-template>

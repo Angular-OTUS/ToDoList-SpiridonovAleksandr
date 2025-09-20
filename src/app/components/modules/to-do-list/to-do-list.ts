@@ -75,6 +75,10 @@ export class ToDoList implements OnInit {
     this.toDos.set(this.toDoListService.getAll());
   }
 
+  protected saveTask(toDo: ToDo) {
+    this.toDoListService.update(toDo);
+  }
+
   protected onItemClick(id: number) {
     this.selectedItemId.set(id);
   }

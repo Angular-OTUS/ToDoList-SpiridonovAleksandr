@@ -13,6 +13,7 @@
           <app-to-do-list-item
             [item]="toDo"
             (taskToRemove)="deleteTask($event)"
+            (taskToSave)="saveTask($event)"
             [isSelected]="toDo.id === selectedItemId()"
             (click)="onItemClick(toDo.id)"
             [appTooltip]="'Тисни здесь, чтоб увидеть описание задачи'"

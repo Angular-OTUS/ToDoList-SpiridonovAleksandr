@@ -23,10 +23,10 @@ export class ToDoListService {
     },
   ];
 
-  public add(todoDto: ToDoDto) {
+  public add(toDoDto: ToDoDto) {
     const ids = this.toDoList.map(item => item.id);
     const maxId = ids.length > 0 ? Math.max(...ids) : 0;
-    const newToDo = { ...todoDto, id: maxId + 1 };
+    const newToDo = { ...toDoDto, id: maxId + 1 };
     this.toDoList.push(newToDo);
   }
 
@@ -36,6 +36,11 @@ export class ToDoListService {
 
   public getById(id: number): ToDo | undefined {
     return this.toDoList.find(item => item.id === id);
+  }
+
+  public update(toDo: ToDo) {
+    const index = this.toDoList.findIndex(item => item.id === toDo.id);
+    this.toDoList[index] = toDo;
   }
 
   public removeById(id: number) {

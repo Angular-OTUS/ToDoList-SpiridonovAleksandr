@@ -27,3 +27,15 @@
     background-color: #e66b4d;
   }
 }
+
+.save-btn {
+  background-color: #5c72ff;
+
+  &:hover:not([disabled]) {
+    background-color: #524de6;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
