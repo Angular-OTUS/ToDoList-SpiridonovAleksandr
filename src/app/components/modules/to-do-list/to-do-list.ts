@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
+  computed, inject,
   model,
   ModelSignal,
   OnInit,
@@ -9,12 +9,13 @@ import {
   Signal,
   WritableSignal,
 } from '@angular/core';
-import { ToDo } from '../../../model/to-do';
+import { ToDo, ToDos } from '../../../model/to-do';
 import { FormsModule } from '@angular/forms';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Button } from '../../shared/button/button';
 import { Tooltip } from '../../../directives/tooltip';
+import { ToDoListService } from '../../../services/to-do-list.service';
 
 const DEFAULT_DESCRIPTION = 'Описание';
 const EMPTY_DESCRIPTION = 'Не заполнено';
@@ -33,6 +34,8 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToDoList implements OnInit {
+  private readonly toDoListService: ToDoListService = inject(ToDoListService);
+
   protected newTask: ModelSignal<string> = model<string>('');
   protected newTaskDescription: ModelSignal<string> = model<string>('');
   protected isNewTaskEmpty: Signal<boolean> = computed(() => this.newTask().length === 0);
@@ -44,45 +47,32 @@ export class ToDoList implements OnInit {
     return this.getDescription(id);
   });
 
-  protected readonly toDoList: ToDo[] = [
-    {
-      id: 1,
-      text: 'Посадить печень',
-      description: 'Пить много спиртосодержащих напитков - пива, водки и прочего',
-    },
-    {
-      id: 2,
-      text: 'Вырастить пузо',
-      description: 'Жрать много жирного, сладкого и жареного',
-    },
-    {
-      id: 3,
-      text: 'Построить тещу',
-      description: 'Быть брутальным мачо, разговаривать грозным голосом сдвинув брови',
-    },
-  ];
+  protected toDos: WritableSignal<ToDos | undefined> = signal<ToDos | undefined>(undefined);
+  protected isToDoListEmpty: Signal<boolean> = computed(() => {
+    if (this.toDos()) {
+      return this.toDos()?.items.length === 0;
+    }
+    return false;
+  });
 
   ngOnInit(): void {
+    this.toDos.set(this.toDoListService.getAll());
     setTimeout(() => {
       this.isLoading.set(false);
     }, 500);
   }
 
   protected addTask() {
-    const ids = this.toDoList.map(item => item.id);
-    const maxId = Math.max(...ids);
-    const newToDo = { id: maxId + 1, text: this.newTask(), description: this.newTaskDescription() };
-    this.toDoList.push(newToDo);
+    this.toDoListService.add({ text: this.newTask(), description: this.newTaskDescription() });
     this.newTask.set('');
     this.newTaskDescription.set('');
+    this.toDos.set(this.toDoListService.getAll());
   }
 
   protected deleteTask(id: number) {
-    const index = this.toDoList.findIndex(item => item.id === id);
-    if (index > -1) {
-      this.toDoList.splice(index, 1);
-    }
+    this.toDoListService.removeById(id);
     this.selectedItemId.set(null);
+    this.toDos.set(this.toDoListService.getAll());
   }
 
   protected onItemClick(id: number) {
@@ -91,7 +81,7 @@ export class ToDoList implements OnInit {
 
   private getDescription(id: number | null): string {
     if (id != null) {
-      const selectedDescription = this.toDoList.find(item => item.id === id)?.description;
+      const selectedDescription = this.toDoListService.getById(id)?.description;
       switch (selectedDescription) {
         case undefined:
           return DEFAULT_DESCRIPTION;

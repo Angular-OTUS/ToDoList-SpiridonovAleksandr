@@ -16,7 +16,8 @@ export class ToDoListItem {
   public isSelected: InputSignal<boolean> = input<boolean>(false);
   protected taskToRemove: OutputEmitterRef<number> = output<number>();
 
-  protected onDelete(id: number) {
+  protected onDelete(event: Event, id: number) {
+    event.stopPropagation();
     this.taskToRemove.emit(id);
   }
 }

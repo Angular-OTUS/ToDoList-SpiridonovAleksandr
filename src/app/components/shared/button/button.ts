@@ -32,5 +32,5 @@ export class Button {
     return this.actionType() === 'add' ? 'add-btn' : 'delete-btn'
   });
 
-  protected clicked: OutputEmitterRef<void> = output<void>();
+  protected clicked: OutputEmitterRef<Event> = output<Event>();
 }

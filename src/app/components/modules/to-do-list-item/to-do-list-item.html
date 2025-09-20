@@ -6,6 +6,6 @@
   <app-button
     title="Delete"
     actionType="delete"
-    (clicked)="onDelete(item().id)"
+    (clicked)="onDelete($event, item().id)"
   />
 </li>
