@@ -17,6 +17,8 @@ import { Button } from '../../shared/button/button';
 import { Tooltip } from '../../../directives/tooltip';
 import { ToDoListService } from '../../../services/to-do-list.service';
 import { ToastService } from '../../../services/toast.service';
+import { TODO_TOAST_MESSAGES } from '../../../tokens/to-do-toast.token';
+import { ToastType } from '../../../model/toast-dto';
 
 const DEFAULT_DESCRIPTION = 'Описание';
 const EMPTY_DESCRIPTION = 'Не заполнено';
@@ -30,6 +32,16 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
     Button,
     Tooltip,
   ],
+  providers: [
+    {
+      provide: TODO_TOAST_MESSAGES,
+      useValue: {
+        success: 'Задача успешно добавлена',
+        warning: 'Задача удалена',
+        info: 'Задача изменена'
+      }
+    }
+  ],
   templateUrl: './to-do-list.html',
   styleUrl: './to-do-list.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,6 +49,7 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
 export class ToDoList implements OnInit {
   private readonly toDoListService: ToDoListService = inject(ToDoListService);
   private readonly toastService: ToastService = inject(ToastService);
+  private readonly toastMessages: Record<ToastType, string> = inject(TODO_TOAST_MESSAGES);
 
   protected newTask: ModelSignal<string> = model<string>('');
   protected newTaskDescription: ModelSignal<string> = model<string>('');
@@ -69,19 +82,19 @@ export class ToDoList implements OnInit {
     this.newTask.set('');
     this.newTaskDescription.set('');
     this.toDos.set(this.toDoListService.getAll());
-    this.toastService.showToast('Задача успешно добавлена', 'success');
+    this.toastService.showToast(this.toastMessages.success, 'success');
   }
 
   protected deleteTask(id: number) {
     this.toDoListService.removeById(id);
     this.selectedItemId.set(null);
     this.toDos.set(this.toDoListService.getAll());
-    this.toastService.showToast('Задача удалена', 'warning');
+    this.toastService.showToast(this.toastMessages.warning, 'warning');
   }
 
   protected saveTask(toDo: ToDo) {
     this.toDoListService.update(toDo);
-    this.toastService.showToast('Задача изменена', 'info');
+    this.toastService.showToast(this.toastMessages.info, 'info');
   }
 
   protected onItemClick(id: number) {
