@@ -6,7 +6,7 @@ import {
   model,
   ModelSignal,
   output,
-  OutputEmitterRef, Signal, signal, WritableSignal
+  OutputEmitterRef, Signal, signal, WritableSignal,
 } from '@angular/core';
 import { ToDo } from '../../../model/to-do';
 import { Button } from '../../shared/button/button';

@@ -6,10 +6,10 @@ import { ToastDto } from '../../../model/toast-dto';
 @Component({
   selector: 'app-toast',
   imports: [
-    NgClass
+    NgClass,
   ],
   templateUrl: './toast.html',
-  styleUrl: './toast.scss'
+  styleUrl: './toast.scss',
 })
 export class Toast {
   private toastService = inject(ToastService);

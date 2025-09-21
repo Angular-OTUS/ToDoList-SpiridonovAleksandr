@@ -2,7 +2,7 @@ import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/c
 import { ToastDto, ToastType } from '../model/toast-dto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToastService {
   private toasts: WritableSignal<ToastDto[]> = signal<ToastDto[]>([]);
@@ -14,7 +14,7 @@ export class ToastService {
   showToast(
     message: string,
     type: ToastType = 'info',
-    duration: number = 3000
+    duration = 3000,
   ): void {
     const id = this.nextId++;
     const toast: ToastDto = { id, message, type, duration };

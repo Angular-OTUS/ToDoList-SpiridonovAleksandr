@@ -38,9 +38,9 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
       useValue: {
         success: 'Задача успешно добавлена',
         warning: 'Задача удалена',
-        info: 'Задача изменена'
-      }
-    }
+        info: 'Задача изменена',
+      },
+    },
   ],
   templateUrl: './to-do-list.html',
   styleUrl: './to-do-list.scss',

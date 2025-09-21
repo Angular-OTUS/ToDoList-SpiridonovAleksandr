@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ToDo, ToDoDto, ToDos } from '../model/to-do';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToDoListService {
   private readonly toDoList: ToDo[] = [
