@@ -16,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Button } from '../../shared/button/button';
 import { Tooltip } from '../../../directives/tooltip';
 import { ToDoListService } from '../../../services/to-do-list.service';
+import { ToastService } from '../../../services/toast.service';
 
 const DEFAULT_DESCRIPTION = 'Описание';
 const EMPTY_DESCRIPTION = 'Не заполнено';
@@ -35,6 +36,7 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
 })
 export class ToDoList implements OnInit {
   private readonly toDoListService: ToDoListService = inject(ToDoListService);
+  private readonly toastService: ToastService = inject(ToastService);
 
   protected newTask: ModelSignal<string> = model<string>('');
   protected newTaskDescription: ModelSignal<string> = model<string>('');
@@ -67,16 +69,19 @@ export class ToDoList implements OnInit {
     this.newTask.set('');
     this.newTaskDescription.set('');
     this.toDos.set(this.toDoListService.getAll());
+    this.toastService.showToast('Задача успешно добавлена', 'success');
   }
 
   protected deleteTask(id: number) {
     this.toDoListService.removeById(id);
     this.selectedItemId.set(null);
     this.toDos.set(this.toDoListService.getAll());
+    this.toastService.showToast('Задача удалена', 'warning');
   }
 
   protected saveTask(toDo: ToDo) {
     this.toDoListService.update(toDo);
+    this.toastService.showToast('Задача изменена', 'info');
   }
 
   protected onItemClick(id: number) {
