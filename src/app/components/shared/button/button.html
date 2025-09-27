@@ -4,7 +4,7 @@
   [disabled]="isDisabled()"
   [ngClass]="[actionClass()]"
   (click)="clicked.emit($event)"
-  [appTooltip]="`Жмякни кнопочку для ${(actionType() === 'add') ? 'добавления' : 'удаления'}`"
+  [appTooltip]="tooltipText()"
 >
-  {{ title() }}
+  <ng-content />
 </button>

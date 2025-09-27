@@ -24,7 +24,6 @@ type ButtonAction = 'add'|'delete'|'save';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Button {
-  public title: InputSignal<string> = input.required<string>();
   public actionType: InputSignal<ButtonAction> = input.required<ButtonAction>();
   public isDisabled = input<boolean>(false);
 
@@ -38,6 +37,9 @@ export class Button {
         return 'save-btn';
     }
   });
+
+  protected tooltipText = computed(() =>
+    `Жмякни кнопочку для ${(this.actionType() === 'add') ? 'добавления' : 'удаления'}`);
 
   protected clicked: OutputEmitterRef<Event> = output<Event>();
 }

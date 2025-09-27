@@ -33,11 +33,12 @@
       [(ngModel)]="newTask"
     />
     <app-button
-      title="Add"
       actionType="add"
       [isDisabled]="isNewTaskEmpty()"
       (clicked)="addTask()"
-    />
+    >
+      Add
+    </app-button>
   </div>
   <div class="add-description-container">
     <textarea

@@ -9,10 +9,11 @@
 <ng-template #showMode>
   <span class="task-text">{{ item().text }}</span>
   <app-button
-    title="Delete"
     actionType="delete"
     (clicked)="onDelete($event, item().id)"
-  />
+  >
+    Delete
+  </app-button>
 </ng-template>
 
 <ng-template #editMode>
@@ -23,10 +24,11 @@
     />
   </div>
   <app-button
-    title="Save"
     actionType="save"
     class="btn-block"
     [isDisabled]="isNewTextEmpty()"
     (clicked)="onSave($event)"
-  />
+  >
+    Save
+  </app-button>
 </ng-template>
