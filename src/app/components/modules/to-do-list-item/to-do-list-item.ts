@@ -60,4 +60,12 @@ export class ToDoListItem {
     this.taskToSave.emit(updatedTask);
     this.isEditMode.set(false);
   }
+
+  protected onStatusChange(event: Event) {
+    event.stopPropagation();
+    const target = event.target as HTMLInputElement;
+    const checked = target.checked;
+    const updatedTask: ToDo = { ...this.item(), status: checked ? 'COMPLETED' : 'IN_PROGRESS' };
+    this.taskToSave.emit(updatedTask);
+  }
 }

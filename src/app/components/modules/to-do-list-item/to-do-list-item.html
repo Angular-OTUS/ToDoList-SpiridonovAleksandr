@@ -10,6 +10,7 @@
   <div class="task-content">
     <app-checkbox
       [itemId]="item().id"
+      (checked)="onStatusChange($event)"
     >
       Done
     </app-checkbox>

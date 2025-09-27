@@ -3,6 +3,7 @@
     type="checkbox"
     id="{{ checkboxId() }}"
     class="checkbox_input"
+    (change)="checked.emit($event)"
   >
   <label
     for="{{ checkboxId() }}"
