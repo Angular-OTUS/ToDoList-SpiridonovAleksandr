@@ -10,6 +10,7 @@
   <div class="task-content">
     <app-checkbox
       [itemId]="item().id"
+      [isChecked]="item().status === 'COMPLETED'"
       (checked)="onStatusChange($event)"
     >
       Done

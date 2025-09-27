@@ -9,7 +9,7 @@ import {
   Signal,
   WritableSignal,
 } from '@angular/core';
-import { ToDo, ToDos } from '../../../model/to-do';
+import { ToDo, ToDoFilterStatus, ToDos } from '../../../model/to-do';
 import { FormsModule } from '@angular/forms';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -20,6 +20,7 @@ import { ToastService } from '../../../services/toast.service';
 import { TODO_TOAST_MESSAGES } from '../../../tokens/to-do-toast.token';
 import { ToastType } from '../../../model/toast-dto';
 import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
+import { ToDoFilter } from '../to-do-filter/to-do-filter';
 
 const DEFAULT_DESCRIPTION = 'Описание';
 const EMPTY_DESCRIPTION = 'Не заполнено';
@@ -33,6 +34,7 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
     Button,
     Tooltip,
     LoadingSpinner,
+    ToDoFilter,
   ],
   providers: [
     {
@@ -64,12 +66,17 @@ export class ToDoList implements OnInit {
     return this.getDescription(id);
   });
 
-  protected toDos: WritableSignal<ToDos | undefined> = signal<ToDos | undefined>(undefined);
-  protected isToDoListEmpty: Signal<boolean> = computed(() => {
+  private toDos: WritableSignal<ToDos | undefined> = signal<ToDos | undefined>(undefined);
+
+  protected filterStatus: WritableSignal<ToDoFilterStatus> = signal<ToDoFilterStatus>('ALL');
+  protected filteredToDoList = computed(() => {
+    const status = this.filterStatus();
     if (this.toDos()) {
-      return this.toDos()?.items.length === 0;
+      const items = this.toDos()!.items;
+      return (status === 'ALL') ? items : items.filter(item => item.status === status);
+    } else {
+      return [];
     }
-    return false;
   });
 
   ngOnInit(): void {
@@ -105,6 +112,10 @@ export class ToDoList implements OnInit {
 
   protected onItemClick(id: number) {
     this.selectedItemId.set(id);
+  }
+
+  protected onFilterChange(status: ToDoFilterStatus) {
+    this.filterStatus.set(status);
   }
 
   private getDescription(id: number | null): string {

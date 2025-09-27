@@ -19,10 +19,17 @@ $to-do-list-width: 750px;
     text-align: center;
   }
 
+  app-to-do-filter {
+    width: 100%;
+    max-width: $to-do-list-width;
+  }
+
   .task-container-empty {
     max-width: $to-do-list-width;
     text-align: center;
     font-size: large;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .task-container {

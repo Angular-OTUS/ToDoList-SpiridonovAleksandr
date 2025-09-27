@@ -1,0 +1,10 @@
+<select
+  [(ngModel)]="selectedStatus"
+  class="status-filter"
+>
+  @for (filterOption of filterOptions; track $index) {
+    <option [value]="filterOption.value">
+      {{ filterOption.label }}
+    </option>
+  }
+</select>

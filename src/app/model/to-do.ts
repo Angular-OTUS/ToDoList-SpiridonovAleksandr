@@ -4,6 +4,8 @@ export interface ToDos {
 
 export type ToDoStatus = 'IN_PROGRESS' | 'COMPLETED';
 
+export type ToDoFilterStatus = ToDoStatus | 'ALL';
+
 export interface ToDo {
   id: number;
   text: string;

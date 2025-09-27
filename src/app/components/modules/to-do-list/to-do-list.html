@@ -1,14 +1,15 @@
 <div class="todo-component">
   <h1>Todo list</h1>
+  <app-to-do-filter (statusChanged)="onFilterChange($event)" />
   <app-loading-spinner [isLoading]="isLoading()">
-    @if (isToDoListEmpty()) {
+    @if (filteredToDoList().length === 0) {
       <div class="task-container-empty">
         <span>Список задач пуст</span>
       </div>
     } @else {
       <div class="task-container">
         <ul class="task-list">
-          @for (toDo of toDos()?.items; track $index) {
+          @for (toDo of filteredToDoList(); track $index) {
             <app-to-do-list-item
               [item]="toDo"
               (taskToRemove)="deleteTask($event)"
