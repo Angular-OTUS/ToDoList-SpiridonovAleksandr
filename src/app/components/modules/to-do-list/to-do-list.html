@@ -2,17 +2,18 @@
   <h1>Todo list</h1>
   @if (isLoading()) {
     <mat-spinner/>
-  } @else if (toDoList.length === 0) {
+  } @else if (isToDoListEmpty()) {
     <div class="task-container-empty">
       <span>Список задач пуст</span>
     </div>
   } @else {
     <div class="task-container">
       <ul class="task-list">
-        @for (toDo of toDoList; track $index) {
+        @for (toDo of toDos()?.items; track $index) {
           <app-to-do-list-item
             [item]="toDo"
             (taskToRemove)="deleteTask($event)"
+            (taskToSave)="saveTask($event)"
             [isSelected]="toDo.id === selectedItemId()"
             (click)="onItemClick(toDo.id)"
             [appTooltip]="'Тисни здесь, чтоб увидеть описание задачи'"

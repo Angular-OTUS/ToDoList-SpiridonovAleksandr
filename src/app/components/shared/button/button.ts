@@ -11,7 +11,7 @@ import {
 import { NgClass } from '@angular/common';
 import { Tooltip } from '../../../directives/tooltip';
 
-type ButtonAction = 'add'|'delete';
+type ButtonAction = 'add'|'delete'|'save';
 
 @Component({
   selector: 'app-button',
@@ -29,8 +29,15 @@ export class Button {
   public isDisabled = input<boolean>(false);
 
   protected actionClass: Signal<string> = computed(() => {
-    return this.actionType() === 'add' ? 'add-btn' : 'delete-btn'
+    switch (this.actionType()) {
+      case "add":
+        return 'add-btn';
+      case "delete":
+        return 'delete-btn';
+      default:
+        return 'save-btn';
+    }
   });
 
-  protected clicked: OutputEmitterRef<void> = output<void>();
+  protected clicked: OutputEmitterRef<Event> = output<Event>();
 }
