@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component, computed,
+  Component, computed, effect,
   input,
   InputSignal,
   model,
@@ -32,7 +32,15 @@ export class ToDoListItem {
 
   protected newText: ModelSignal<string | undefined> = model<string | undefined>();
   protected isNewTextEmpty: Signal<boolean> = computed(() => this.newText()?.length === 0);
-  public isEditMode: WritableSignal<boolean> = signal<boolean>(false);
+  protected isEditMode: WritableSignal<boolean> = signal<boolean>(false);
+
+  constructor() {
+    effect(() => {
+      if (!this.isSelected()) {
+        this.isEditMode.set(false);
+      }
+    });
+  }
 
   protected toggleToEditMode() {
     this.isEditMode.set(true);
@@ -46,8 +54,7 @@ export class ToDoListItem {
 
   protected onSave(event: Event) {
     event.stopPropagation();
-    const oldTask = this.item();
-    const updatedTask = { ...oldTask, text: this.newText() ?? '' };
+    const updatedTask = { ...this.item(), text: this.newText() ?? '' };
     this.taskToSave.emit(updatedTask);
     this.isEditMode.set(false);
   }
