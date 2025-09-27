@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoadingSpinner } from './loading-spinner';
+import { Checkbox } from './checkbox';
 
-describe('LoadingSpinner', () => {
-  let component: LoadingSpinner;
-  let fixture: ComponentFixture<LoadingSpinner>;
+describe('Checkbox', () => {
+  let component: Checkbox;
+  let fixture: ComponentFixture<Checkbox>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoadingSpinner],
+      imports: [Checkbox],
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LoadingSpinner);
+    fixture = TestBed.createComponent(Checkbox);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -12,6 +12,7 @@ import { ToDo } from '../../../model/to-do';
 import { Button } from '../../shared/button/button';
 import { FormsModule } from '@angular/forms';
 import { NgTemplateOutlet } from '@angular/common';
+import { Checkbox } from '../../shared/checkbox/checkbox';
 
 @Component({
   selector: 'app-to-do-list-item',
@@ -19,6 +20,7 @@ import { NgTemplateOutlet } from '@angular/common';
     Button,
     FormsModule,
     NgTemplateOutlet,
+    Checkbox,
   ],
   templateUrl: './to-do-list-item.html',
   styleUrl: './to-do-list-item.scss',

@@ -80,7 +80,11 @@ export class ToDoList implements OnInit {
   }
 
   protected addTask() {
-    this.toDoListService.add({ text: this.newTask(), description: this.newTaskDescription() });
+    this.toDoListService.add({
+      text: this.newTask(),
+      description: this.newTaskDescription(),
+      status: 'IN_PROGRESS',
+    });
     this.newTask.set('');
     this.newTaskDescription.set('');
     this.toDos.set(this.toDoListService.getAll());

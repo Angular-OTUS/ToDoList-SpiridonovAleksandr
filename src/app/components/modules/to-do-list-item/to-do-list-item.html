@@ -7,7 +7,14 @@
 </li>
 
 <ng-template #showMode>
-  <span class="task-text">{{ item().text }}</span>
+  <div class="task-content">
+    <app-checkbox
+      [itemId]="item().id"
+    >
+      Done
+    </app-checkbox>
+    <span class="task-text">{{ item().text }}</span>
+  </div>
   <app-button
     actionType="delete"
     (clicked)="onDelete($event, item().id)"
