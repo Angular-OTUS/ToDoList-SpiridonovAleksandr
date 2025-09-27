@@ -1,4 +1,13 @@
-import { Component, computed, model, ModelSignal, output, OutputEmitterRef, Signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  model,
+  ModelSignal,
+  output,
+  OutputEmitterRef,
+  Signal,
+} from '@angular/core';
 import { Button } from '../../shared/button/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToDoDto } from '../../../model/to-do';
@@ -12,6 +21,7 @@ import { ToDoDto } from '../../../model/to-do';
   ],
   templateUrl: './to-do-create-item.html',
   styleUrl: './to-do-create-item.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToDoCreateItem {
   protected newTask: ModelSignal<string> = model<string>('');
