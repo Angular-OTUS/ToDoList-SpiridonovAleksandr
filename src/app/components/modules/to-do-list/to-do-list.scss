@@ -19,11 +19,6 @@ $to-do-list-width: 750px;
     text-align: center;
   }
 
-  app-to-do-filter {
-    width: 100%;
-    max-width: $to-do-list-width;
-  }
-
   .task-container-empty {
     max-width: $to-do-list-width;
     text-align: center;
@@ -65,46 +60,8 @@ $to-do-list-width: 750px;
     }
   }
 
-  .add-task-container {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+  app-to-do-filter, app-to-do-create-item {
     width: 100%;
     max-width: $to-do-list-width;
-
-    .new-task-input {
-      flex: 3;
-      padding: 0.5rem;
-      border-radius: 4px;
-      outline: none;
-      border: 1px solid #ccc;
-
-      &::placeholder {
-        color: #aaa;
-      }
-    }
-
-    app-button {
-      flex: 1;
-    }
-  }
-
-  .add-description-container {
-    margin-top: 1rem;
-    width: 100%;
-    max-width: $to-do-list-width;
-
-    .new-description {
-      padding: 0.5rem;
-      border-radius: 4px;
-      outline: none;
-      border: 1px solid #ccc;
-      width: 100%;
-      box-sizing: border-box;
-
-      &::placeholder {
-        color: #aaa;
-      }
-    }
   }
 }

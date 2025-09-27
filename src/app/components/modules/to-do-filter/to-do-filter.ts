@@ -6,7 +6,7 @@ import { TODO_FILTER_OPTIONS, ToDoFilterOption } from '../../../tokens/to-do-fil
 @Component({
   selector: 'app-to-do-filter',
   imports: [
-    FormsModule
+    FormsModule,
   ],
   providers: [
     {
@@ -14,12 +14,12 @@ import { TODO_FILTER_OPTIONS, ToDoFilterOption } from '../../../tokens/to-do-fil
       useValue: [
         { value: 'ALL', label: 'Все' },
         { value: 'IN_PROGRESS', label: 'В процессе' },
-        { value: 'COMPLETED', label: 'Завершенные' }
-      ]
-    }
+        { value: 'COMPLETED', label: 'Завершенные' },
+      ],
+    },
   ],
   templateUrl: './to-do-filter.html',
-  styleUrl: './to-do-filter.scss'
+  styleUrl: './to-do-filter.scss',
 })
 export class ToDoFilter {
   protected readonly filterOptions: ToDoFilterOption[] = inject(TODO_FILTER_OPTIONS);

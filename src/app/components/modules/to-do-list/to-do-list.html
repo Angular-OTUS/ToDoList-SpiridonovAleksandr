@@ -26,27 +26,7 @@
       </div>
     }
   </app-loading-spinner>
-  <div class="add-task-container">
-    <input
-      type="text"
-      placeholder="Новая задача..."
-      class="new-task-input"
-      [(ngModel)]="newTask"
-    />
-    <app-button
-      actionType="add"
-      [isDisabled]="isNewTaskEmpty()"
-      (clicked)="addTask()"
-    >
-      Add
-    </app-button>
-  </div>
-  <div class="add-description-container">
-    <textarea
-      rows="3"
-      placeholder="Добавьте описание задачи..."
-      class="new-description"
-      [(ngModel)]="newTaskDescription"
-    ></textarea>
-  </div>
+  <app-to-do-create-item
+    (taskToAdd)="addTask($event)"
+  />
 </div>

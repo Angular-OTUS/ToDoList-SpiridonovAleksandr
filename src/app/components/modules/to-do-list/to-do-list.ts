@@ -1,19 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed, inject,
-  model,
-  ModelSignal,
+  computed,
+  inject,
   OnInit,
   signal,
   Signal,
   WritableSignal,
 } from '@angular/core';
-import { ToDo, ToDoFilterStatus, ToDos } from '../../../model/to-do';
+import { ToDo, ToDoDto, ToDoFilterStatus, ToDos } from '../../../model/to-do';
 import { FormsModule } from '@angular/forms';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Button } from '../../shared/button/button';
 import { Tooltip } from '../../../directives/tooltip';
 import { ToDoListService } from '../../../services/to-do-list.service';
 import { ToastService } from '../../../services/toast.service';
@@ -21,6 +19,7 @@ import { TODO_TOAST_MESSAGES } from '../../../tokens/to-do-toast.token';
 import { ToastType } from '../../../model/toast-dto';
 import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
 import { ToDoFilter } from '../to-do-filter/to-do-filter';
+import { ToDoCreateItem } from '../to-do-create-item/to-do-create-item';
 
 const DEFAULT_DESCRIPTION = 'Описание';
 const EMPTY_DESCRIPTION = 'Не заполнено';
@@ -31,10 +30,10 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
     FormsModule,
     MatProgressSpinnerModule,
     ToDoListItem,
-    Button,
     Tooltip,
     LoadingSpinner,
     ToDoFilter,
+    ToDoCreateItem,
   ],
   providers: [
     {
@@ -55,9 +54,6 @@ export class ToDoList implements OnInit {
   private readonly toastService: ToastService = inject(ToastService);
   private readonly toastMessages: Record<ToastType, string> = inject(TODO_TOAST_MESSAGES);
 
-  protected newTask: ModelSignal<string> = model<string>('');
-  protected newTaskDescription: ModelSignal<string> = model<string>('');
-  protected isNewTaskEmpty: Signal<boolean> = computed(() => this.newTask().length === 0);
   protected isLoading: WritableSignal<boolean> = signal<boolean>(true);
 
   protected selectedItemId: WritableSignal<number | null> = signal<number | null>(null);
@@ -86,14 +82,8 @@ export class ToDoList implements OnInit {
     }, 500);
   }
 
-  protected addTask() {
-    this.toDoListService.add({
-      text: this.newTask(),
-      description: this.newTaskDescription(),
-      status: 'IN_PROGRESS',
-    });
-    this.newTask.set('');
-    this.newTaskDescription.set('');
+  protected addTask(task: ToDoDto) {
+    this.toDoListService.add(task);
     this.toDos.set(this.toDoListService.getAll());
     this.toastService.showToast(this.toastMessages.success, 'success');
   }

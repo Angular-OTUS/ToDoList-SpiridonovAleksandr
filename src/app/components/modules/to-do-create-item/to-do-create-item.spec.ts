@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ToDoFilter } from './to-do-filter';
+import { ToDoCreateItem } from './to-do-create-item';
 
-describe('ToDoFilter', () => {
-  let component: ToDoFilter;
-  let fixture: ComponentFixture<ToDoFilter>;
+describe('ToDoCreateItem', () => {
+  let component: ToDoCreateItem;
+  let fixture: ComponentFixture<ToDoCreateItem>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ToDoFilter],
+      imports: [ToDoCreateItem],
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ToDoFilter);
+    fixture = TestBed.createComponent(ToDoCreateItem);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

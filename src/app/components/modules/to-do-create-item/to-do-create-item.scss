@@ -1,0 +1,40 @@
+.add-task-container {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  width: 100%;
+
+  .new-task-input {
+    flex: 3;
+    padding: 0.5rem;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #ccc;
+
+    &::placeholder {
+      color: #aaa;
+    }
+  }
+
+  app-button {
+    flex: 1;
+  }
+}
+
+.add-description-container {
+  margin-top: 1rem;
+  width: 100%;
+
+  .new-description {
+    padding: 0.5rem;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+
+    &::placeholder {
+      color: #aaa;
+    }
+  }
+}
