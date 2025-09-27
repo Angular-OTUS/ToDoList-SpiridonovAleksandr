@@ -19,6 +19,7 @@ import { ToDoListService } from '../../../services/to-do-list.service';
 import { ToastService } from '../../../services/toast.service';
 import { TODO_TOAST_MESSAGES } from '../../../tokens/to-do-toast.token';
 import { ToastType } from '../../../model/toast-dto';
+import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
 
 const DEFAULT_DESCRIPTION = 'Описание';
 const EMPTY_DESCRIPTION = 'Не заполнено';
@@ -31,6 +32,7 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
     ToDoListItem,
     Button,
     Tooltip,
+    LoadingSpinner,
   ],
   providers: [
     {
