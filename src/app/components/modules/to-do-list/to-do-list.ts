@@ -132,6 +132,7 @@ export class ToDoList implements OnInit {
         this.refreshTrigger$.next();
       }
     });
+    this.hideAllTooltips();
     this.toastService.showToast(this.toastMessages.info, 'info');
   }
 
@@ -153,5 +154,13 @@ export class ToDoList implements OnInit {
       default:
         return selectedDescription;
     }
+  }
+
+  private hideAllTooltips(): void {
+    document.querySelectorAll('[data-tooltip]').forEach(el => {
+      if (el.parentNode) {
+        el.parentNode.removeChild(el);
+      }
+    });
   }
 }

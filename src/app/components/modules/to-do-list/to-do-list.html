@@ -9,7 +9,7 @@
     } @else {
       <div class="task-container">
         <ul class="task-list">
-          @for (toDo of filteredToDoList(); track $index) {
+          @for (toDo of filteredToDoList(); track toDo.id) {
             <app-to-do-list-item
               [item]="toDo"
               (taskToRemove)="deleteTask($event)"

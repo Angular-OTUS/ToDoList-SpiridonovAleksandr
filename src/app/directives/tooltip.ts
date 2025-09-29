@@ -13,6 +13,7 @@ export class Tooltip implements OnDestroy {
   }
 
   @HostListener('mouseleave') onMouseLeave() {
+    console.log('mouseleave:', this.tooltipElement);
     this.hideTooltip();
   }
 
@@ -33,6 +34,7 @@ export class Tooltip implements OnDestroy {
     newElement.style.padding = '8px';
     newElement.style.borderRadius = '4px';
     newElement.textContent = this.appTooltip();
+    newElement.setAttribute('data-tooltip', '');
 
     this.tooltipElement = newElement;
     document.body.appendChild(newElement);
