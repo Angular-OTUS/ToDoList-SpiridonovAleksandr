@@ -13,13 +13,15 @@ import { FormsModule } from '@angular/forms';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Tooltip } from '../../../directives/tooltip';
-import { ToDoListService } from '../../../services/to-do-list.service';
 import { ToastService } from '../../../services/toast.service';
 import { TODO_TOAST_MESSAGES } from '../../../tokens/to-do-toast.token';
 import { ToastType } from '../../../model/toast-dto';
 import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
 import { ToDoFilter } from '../to-do-filter/to-do-filter';
 import { ToDoCreateItem } from '../to-do-create-item/to-do-create-item';
+import { ToDoListApiService } from '../../../services/to-do-list.api.service';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { finalize, map, Observable, of, startWith, Subject, switchMap } from 'rxjs';
 
 const DEFAULT_DESCRIPTION = 'Описание';
 const EMPTY_DESCRIPTION = 'Не заполнено';
@@ -50,19 +52,43 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToDoList implements OnInit {
-  private readonly toDoListService: ToDoListService = inject(ToDoListService);
+  private readonly toDoListService: ToDoListApiService = inject(ToDoListApiService);
   private readonly toastService: ToastService = inject(ToastService);
   private readonly toastMessages: Record<ToastType, string> = inject(TODO_TOAST_MESSAGES);
 
-  protected isLoading: WritableSignal<boolean> = signal<boolean>(true);
+  protected isLoading: WritableSignal<boolean> = signal<boolean>(false);
 
   protected selectedItemId: WritableSignal<number | null> = signal<number | null>(null);
-  protected description: Signal<string> = computed(() => {
-    const id = this.selectedItemId();
-    return this.getDescription(id);
-  });
+  private selectedItemId$: Observable<number | null> = toObservable(this.selectedItemId);
+  protected description: Signal<string> = toSignal(
+    this.selectedItemId$.pipe(
+      switchMap(id => {
+        if (id === null) {
+          return of(DEFAULT_DESCRIPTION);
+        }
+        return this.toDoListService.getById(id).pipe(
+          map(task => {
+            return this.getDescription(task);
+          })
+        );
+      })
+    ),
+    { initialValue: DEFAULT_DESCRIPTION }
+  );
 
-  private toDos: WritableSignal<ToDos | undefined> = signal<ToDos | undefined>(undefined);
+  private refreshTrigger$: Subject<void> = new Subject<void>();
+  private toDos$: Observable<ToDos> = this.refreshTrigger$.pipe(
+    startWith(undefined),
+    switchMap(() => {
+      this.isLoading.set(true);
+      return this.toDoListService.getAll().pipe(
+        finalize(() => this.isLoading.set(false))
+      );
+    })
+  );
+  private toDos = toSignal(this.toDos$, {
+    initialValue: undefined
+  });
 
   protected filterStatus: WritableSignal<ToDoFilterStatus> = signal<ToDoFilterStatus>('ALL');
   protected filteredToDoList = computed(() => {
@@ -76,27 +102,36 @@ export class ToDoList implements OnInit {
   });
 
   ngOnInit(): void {
-    this.toDos.set(this.toDoListService.getAll());
-    setTimeout(() => {
-      this.isLoading.set(false);
-    }, 500);
+    this.refreshTrigger$.next();
   }
 
   protected addTask(task: ToDoDto) {
-    this.toDoListService.add(task);
-    this.toDos.set(this.toDoListService.getAll());
+    this.isLoading.set(true);
+    this.toDoListService.add(task).subscribe({
+      next: () => {
+        this.refreshTrigger$.next();
+      }
+    });
     this.toastService.showToast(this.toastMessages.success, 'success');
   }
 
   protected deleteTask(id: number) {
-    this.toDoListService.removeById(id);
+    this.isLoading.set(true);
+    this.toDoListService.removeById(id).subscribe({
+      next: () => {
+        this.refreshTrigger$.next();
+      }
+    });
     this.selectedItemId.set(null);
-    this.toDos.set(this.toDoListService.getAll());
     this.toastService.showToast(this.toastMessages.warning, 'warning');
   }
 
   protected saveTask(toDo: ToDo) {
-    this.toDoListService.update(toDo);
+    this.toDoListService.update(toDo).subscribe({
+      next: () => {
+        this.refreshTrigger$.next();
+      }
+    });
     this.toastService.showToast(this.toastMessages.info, 'info');
   }
 
@@ -108,18 +143,15 @@ export class ToDoList implements OnInit {
     this.filterStatus.set(status);
   }
 
-  private getDescription(id: number | null): string {
-    if (id != null) {
-      const selectedDescription = this.toDoListService.getById(id)?.description;
-      switch (selectedDescription) {
-        case undefined:
-          return DEFAULT_DESCRIPTION;
-        case '':
-          return EMPTY_DESCRIPTION;
-        default:
-          return selectedDescription;
-      }
+  private getDescription(task: ToDo | undefined): string {
+    const selectedDescription = task?.description;
+    switch (selectedDescription) {
+      case undefined:
+        return DEFAULT_DESCRIPTION;
+      case '':
+        return EMPTY_DESCRIPTION;
+      default:
+        return selectedDescription;
     }
-    return DEFAULT_DESCRIPTION;
   }
 }
