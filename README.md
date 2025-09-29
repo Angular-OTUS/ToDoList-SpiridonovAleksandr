@@ -21,3 +21,8 @@
 #### Homework 5:
 
 Добавлены service, update todo и toast
+
+#### Homework 6:
+
+Добавлены load spinner component, поле status, filter component,
+todo create item component, сервис для запросов в api
