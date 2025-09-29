@@ -141,6 +141,7 @@ export class ToDoList implements OnInit {
   }
 
   protected onFilterChange(status: ToDoFilterStatus) {
+    this.selectedItemId.set(null);
     this.filterStatus.set(status);
   }
 
