@@ -1,4 +1,4 @@
-import { Component, inject, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { ToastService } from '../../../services/toast.service';
 import { ToastDto } from '../../../model/toast-dto';
@@ -10,6 +10,7 @@ import { ToastDto } from '../../../model/toast-dto';
   ],
   templateUrl: './toast.html',
   styleUrl: './toast.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Toast {
   private toastService = inject(ToastService);

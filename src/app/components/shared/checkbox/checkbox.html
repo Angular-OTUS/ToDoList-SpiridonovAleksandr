@@ -1,0 +1,15 @@
+<div class="checkbox-container">
+  <input
+    type="checkbox"
+    id="{{ checkboxId() }}"
+    class="checkbox_input"
+    [checked]="isChecked()"
+    (change)="checked.emit($event)"
+  >
+  <label
+    for="{{ checkboxId() }}"
+    class="checkbox_label"
+  >
+    <ng-content />
+  </label>
+</div>

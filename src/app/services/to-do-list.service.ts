@@ -10,16 +10,19 @@ export class ToDoListService {
       id: 1,
       text: 'Посадить печень',
       description: 'Пить много спиртосодержащих напитков - пива, водки и прочего',
+      status: 'IN_PROGRESS',
     },
     {
       id: 2,
       text: 'Вырастить пузо',
       description: 'Жрать много жирного, сладкого и жареного',
+      status: 'IN_PROGRESS',
     },
     {
       id: 3,
       text: 'Построить тещу',
       description: 'Быть брутальным мачо, разговаривать грозным голосом сдвинув брови',
+      status: 'IN_PROGRESS',
     },
   ];
 

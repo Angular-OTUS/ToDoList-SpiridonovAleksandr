@@ -13,6 +13,12 @@
     transition: all 0.2s ease-in-out;
   }
 
+  .task-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   .task-text {
     font-weight: bold;
     color: #333;

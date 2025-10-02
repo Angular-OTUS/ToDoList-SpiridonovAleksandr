@@ -1,3 +1,5 @@
+$to-do-list-width: 750px;
+
 .todo-component {
   display: flex;
   flex-direction: column;
@@ -6,7 +8,7 @@
   background-color: #fafafa;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: calc(100% / 2);
+  width: calc(100% / 10 * 6);
   max-width: 100%;
   margin: 20px auto 0;
 
@@ -18,9 +20,11 @@
   }
 
   .task-container-empty {
-    max-width: 600px;
+    max-width: $to-do-list-width;
     text-align: center;
     font-size: large;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .task-container {
@@ -28,17 +32,17 @@
     gap: 1rem;
     margin-top: 1rem;
     width: 100%;
-    max-width: 600px;
+    max-width: $to-do-list-width;
 
     .task-list {
-      flex: 2;
+      flex: 2.2;
       width: 100%;
       list-style-type: none;
       padding-left: 0;
     }
 
     .task-description {
-      flex: 1;
+      flex: 0.8;
       width: 100%;
       text-align: center;
       background-color: #fff;
@@ -56,46 +60,8 @@
     }
   }
 
-  .add-task-container {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+  app-to-do-filter, app-to-do-create-item {
     width: 100%;
-    max-width: 600px;
-
-    .new-task-input {
-      flex: 3;
-      padding: 0.5rem;
-      border-radius: 4px;
-      outline: none;
-      border: 1px solid #ccc;
-
-      &::placeholder {
-        color: #aaa;
-      }
-    }
-
-    app-button {
-      flex: 1;
-    }
-  }
-
-  .add-description-container {
-    margin-top: 1rem;
-    width: 100%;
-    max-width: 600px;
-
-    .new-description {
-      padding: 0.5rem;
-      border-radius: 4px;
-      outline: none;
-      border: 1px solid #ccc;
-      width: 100%;
-      box-sizing: border-box;
-
-      &::placeholder {
-        color: #aaa;
-      }
-    }
+    max-width: $to-do-list-width;
   }
 }

@@ -1,50 +1,32 @@
 <div class="todo-component">
   <h1>Todo list</h1>
-  @if (isLoading()) {
-    <mat-spinner/>
-  } @else if (isToDoListEmpty()) {
-    <div class="task-container-empty">
-      <span>Список задач пуст</span>
-    </div>
-  } @else {
-    <div class="task-container">
-      <ul class="task-list">
-        @for (toDo of toDos()?.items; track $index) {
-          <app-to-do-list-item
-            [item]="toDo"
-            (taskToRemove)="deleteTask($event)"
-            (taskToSave)="saveTask($event)"
-            [isSelected]="toDo.id === selectedItemId()"
-            (click)="onItemClick(toDo.id)"
-            [appTooltip]="'Тисни здесь, чтоб увидеть описание задачи'"
-          />
-        }
-      </ul>
-      <div class="task-description">
-        <span>{{ description() }}</span>
+  <app-to-do-filter (statusChanged)="onFilterChange($event)" />
+  <app-loading-spinner [isLoading]="isLoading()">
+    @if (filteredToDoList().length === 0) {
+      <div class="task-container-empty">
+        <span>Список задач пуст</span>
       </div>
-    </div>
-  }
-  <div class="add-task-container">
-    <input
-      type="text"
-      placeholder="Новая задача..."
-      class="new-task-input"
-      [(ngModel)]="newTask"
-    />
-    <app-button
-      title="Add"
-      actionType="add"
-      [isDisabled]="isNewTaskEmpty()"
-      (clicked)="addTask()"
-    />
-  </div>
-  <div class="add-description-container">
-    <textarea
-      rows="3"
-      placeholder="Добавьте описание задачи..."
-      class="new-description"
-      [(ngModel)]="newTaskDescription"
-    ></textarea>
-  </div>
+    } @else {
+      <div class="task-container">
+        <ul class="task-list">
+          @for (toDo of filteredToDoList(); track toDo.id) {
+            <app-to-do-list-item
+              [item]="toDo"
+              (taskToRemove)="deleteTask($event)"
+              (taskToSave)="saveTask($event)"
+              [isSelected]="toDo.id === selectedItemId()"
+              (click)="onItemClick(toDo.id)"
+              [appTooltip]="'Тисни здесь, чтоб увидеть описание задачи'"
+            />
+          }
+        </ul>
+        <div class="task-description">
+          <span>{{ description() }}</span>
+        </div>
+      </div>
+    }
+  </app-loading-spinner>
+  <app-to-do-create-item
+    (taskToAdd)="addTask($event)"
+  />
 </div>
