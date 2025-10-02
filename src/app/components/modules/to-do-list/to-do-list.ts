@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  OnInit,
-  signal,
-  Signal,
-  WritableSignal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, Signal, WritableSignal, } from '@angular/core';
 import { ToDo, ToDoDto, ToDoFilterStatus, ToDos } from '../../../model/to-do';
 import { FormsModule } from '@angular/forms';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
@@ -51,7 +42,7 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
   styleUrl: './to-do-list.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToDoList implements OnInit {
+export class ToDoList {
   private readonly toDoListService: ToDoListApiService = inject(ToDoListApiService);
   private readonly toastService: ToastService = inject(ToastService);
   private readonly toastMessages: Record<ToastType, string> = inject(TODO_TOAST_MESSAGES);
@@ -100,10 +91,6 @@ export class ToDoList implements OnInit {
       return [];
     }
   });
-
-  ngOnInit(): void {
-    this.refreshTrigger$.next();
-  }
 
   protected addTask(task: ToDoDto) {
     this.isLoading.set(true);
