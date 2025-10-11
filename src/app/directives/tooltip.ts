@@ -13,7 +13,6 @@ export class Tooltip implements OnDestroy {
   }
 
   @HostListener('mouseleave') onMouseLeave() {
-    console.log('mouseleave:', this.tooltipElement);
     this.hideTooltip();
   }
 

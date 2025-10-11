@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, Signal, WritableSignal, } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { ToDo, ToDoDto, ToDoFilterStatus, ToDos } from '../../../model/to-do';
 import { FormsModule } from '@angular/forms';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
@@ -11,12 +20,10 @@ import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
 import { ToDoFilter } from '../to-do-filter/to-do-filter';
 import { ToDoCreateItem } from '../to-do-create-item/to-do-create-item';
 import { ToDoListApiService } from '../../../services/to-do-list.api.service';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { finalize, map, Observable, of, startWith, Subject, switchMap } from 'rxjs';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { finalize, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-
-const DEFAULT_DESCRIPTION = 'Описание';
-const EMPTY_DESCRIPTION = 'Не заполнено';
+import { ToDoEventService } from '../../../services/to-do-event.service';
 
 @Component({
   selector: 'app-to-do-list',
@@ -44,32 +51,18 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
   styleUrl: './to-do-list.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToDoList {
+export class ToDoList implements OnInit {
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly toDoListService: ToDoListApiService = inject(ToDoListApiService);
   private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly toastService: ToastService = inject(ToastService);
+  private readonly toDoEventService: ToDoEventService = inject(ToDoEventService);
   private readonly toastMessages: Record<ToastType, string> = inject(TODO_TOAST_MESSAGES);
 
   protected isLoading: WritableSignal<boolean> = signal<boolean>(false);
 
   protected selectedItemId: WritableSignal<number | null> = signal<number | null>(null);
-  private selectedItemId$: Observable<number | null> = toObservable(this.selectedItemId);
-  protected description: Signal<string> = toSignal(
-    this.selectedItemId$.pipe(
-      switchMap(id => {
-        if (id === null) {
-          return of(DEFAULT_DESCRIPTION);
-        }
-        return this.toDoListService.getById(id).pipe(
-          map(task => {
-            return this.getDescription(task);
-          })
-        );
-      })
-    ),
-    { initialValue: DEFAULT_DESCRIPTION }
-  );
 
   private refreshTrigger$: Subject<void> = new Subject<void>();
   private toDos$: Observable<ToDos> = this.refreshTrigger$.pipe(
@@ -95,6 +88,12 @@ export class ToDoList {
       return [];
     }
   });
+
+  ngOnInit(): void {
+    this.toDoEventService.statusChanged$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(task => this.saveTask(task));
+  }
 
   protected addTask(task: ToDoDto) {
     this.isLoading.set(true);
@@ -135,18 +134,6 @@ export class ToDoList {
   protected onFilterChange(status: ToDoFilterStatus) {
     this.selectedItemId.set(null);
     this.filterStatus.set(status);
-  }
-
-  private getDescription(task: ToDo | undefined): string {
-    const selectedDescription = task?.description;
-    switch (selectedDescription) {
-      case undefined:
-        return DEFAULT_DESCRIPTION;
-      case '':
-        return EMPTY_DESCRIPTION;
-      default:
-        return selectedDescription;
-    }
   }
 
   private hideAllTooltips(): void {

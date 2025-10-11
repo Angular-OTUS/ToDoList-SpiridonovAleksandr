@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, output, OutputEmitterRef, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
 import { Checkbox } from '../../shared/checkbox/checkbox';
 import { ToDo } from '../../../model/to-do';
 import { ToDoListApiService } from '../../../services/to-do-list.api.service';
@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, of, switchMap } from 'rxjs';
 import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
+import { ToDoEventService } from '../../../services/to-do-event.service';
 
 const EMPTY_DESCRIPTION = 'Не заполнено';
 
@@ -21,6 +22,7 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
 })
 export class ToDoItemView {
   private readonly toDoListService: ToDoListApiService = inject(ToDoListApiService);
+  private readonly toDoEventService: ToDoEventService = inject(ToDoEventService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
 
   protected item: Signal<ToDo | null> = toSignal(
@@ -39,15 +41,13 @@ export class ToDoItemView {
   protected description: Signal<string> = computed(() => this.item()?.description || EMPTY_DESCRIPTION);
   protected isLoading = computed(() => this.item() === null);
 
-  protected taskToSave: OutputEmitterRef<ToDo> = output<ToDo>();
-
   protected onStatusChange(event: Event) {
     event.stopPropagation();
     const target = event.target as HTMLInputElement;
     const checked = target.checked;
     if (this.item()) {
       const updatedTask: ToDo = { ...this.item()!!, status: checked ? 'COMPLETED' : 'IN_PROGRESS' };
-      this.taskToSave.emit(updatedTask);
+      this.toDoEventService.statusChanged(updatedTask);
     }
   }
 }
