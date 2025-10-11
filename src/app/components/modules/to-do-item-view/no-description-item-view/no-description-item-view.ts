@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-const DEFAULT_DESCRIPTION = 'Описание';
+const DEFAULT_TITLE = 'Описание';
 
 @Component({
   selector: 'app-no-description-item-view',
@@ -10,5 +10,5 @@ const DEFAULT_DESCRIPTION = 'Описание';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NoDescriptionItemView {
-  protected description: string = DEFAULT_DESCRIPTION;
+  protected title: string = DEFAULT_TITLE;
 }

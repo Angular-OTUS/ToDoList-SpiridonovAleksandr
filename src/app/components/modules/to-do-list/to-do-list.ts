@@ -13,7 +13,7 @@ import { ToDoCreateItem } from '../to-do-create-item/to-do-create-item';
 import { ToDoListApiService } from '../../../services/to-do-list.api.service';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { finalize, map, Observable, of, startWith, Subject, switchMap } from 'rxjs';
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 
 const DEFAULT_DESCRIPTION = 'Описание';
 const EMPTY_DESCRIPTION = 'Не заполнено';
@@ -46,6 +46,8 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
 })
 export class ToDoList {
   private readonly toDoListService: ToDoListApiService = inject(ToDoListApiService);
+  private readonly router: Router = inject(Router);
+  private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly toastService: ToastService = inject(ToastService);
   private readonly toastMessages: Record<ToastType, string> = inject(TODO_TOAST_MESSAGES);
 
@@ -127,6 +129,7 @@ export class ToDoList {
 
   protected onItemClick(id: number) {
     this.selectedItemId.set(id);
+    this.router.navigate([id], { relativeTo: this.route });
   }
 
   protected onFilterChange(status: ToDoFilterStatus) {
