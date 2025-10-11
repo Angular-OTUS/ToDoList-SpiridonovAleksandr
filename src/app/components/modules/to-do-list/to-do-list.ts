@@ -134,6 +134,7 @@ export class ToDoList implements OnInit {
   protected onFilterChange(status: ToDoFilterStatus) {
     this.selectedItemId.set(null);
     this.filterStatus.set(status);
+    this.router.navigate(['tasks']);
   }
 
   private hideAllTooltips(): void {
