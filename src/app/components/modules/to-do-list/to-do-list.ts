@@ -13,6 +13,7 @@ import { ToDoCreateItem } from '../to-do-create-item/to-do-create-item';
 import { ToDoListApiService } from '../../../services/to-do-list.api.service';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { finalize, map, Observable, of, startWith, Subject, switchMap } from 'rxjs';
+import { RouterOutlet } from '@angular/router';
 
 const DEFAULT_DESCRIPTION = 'Описание';
 const EMPTY_DESCRIPTION = 'Не заполнено';
@@ -27,6 +28,7 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
     LoadingSpinner,
     ToDoFilter,
     ToDoCreateItem,
+    RouterOutlet,
   ],
   providers: [
     {
