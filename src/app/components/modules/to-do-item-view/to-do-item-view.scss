@@ -19,10 +19,17 @@
 
 :host::ng-deep .task-content app-loading-spinner {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   flex: 1;
   padding: 0 !important;
   margin: 0 !important;
+}
+
+:host::ng-deep app-loading-spinner:has(> .task-description) {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
 :host::ng-deep .task-content app-loading-spinner > .task-description {
