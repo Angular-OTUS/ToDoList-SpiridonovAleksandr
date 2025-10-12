@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { ToDo } from '../model/to-do';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToDoEventService {
   private statusChangedSource = new Subject<ToDo>();

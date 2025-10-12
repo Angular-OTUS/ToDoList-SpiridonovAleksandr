@@ -8,7 +8,7 @@ describe('NoDescriptionItemView', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NoDescriptionItemView]
+      imports: [NoDescriptionItemView],
     })
     .compileComponents();
 

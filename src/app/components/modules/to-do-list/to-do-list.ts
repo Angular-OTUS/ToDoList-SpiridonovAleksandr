@@ -70,12 +70,12 @@ export class ToDoList implements OnInit {
     switchMap(() => {
       this.isLoading.set(true);
       return this.toDoListService.getAll().pipe(
-        finalize(() => this.isLoading.set(false))
+        finalize(() => this.isLoading.set(false)),
       );
-    })
+    }),
   );
   private toDos = toSignal(this.toDos$, {
-    initialValue: undefined
+    initialValue: undefined,
   });
 
   protected filterStatus: WritableSignal<ToDoFilterStatus> = signal<ToDoFilterStatus>('ALL');
@@ -100,7 +100,7 @@ export class ToDoList implements OnInit {
     this.toDoListService.add(task).subscribe({
       next: () => {
         this.refreshTrigger$.next();
-      }
+      },
     });
     this.toastService.showToast(this.toastMessages.success, 'success');
   }
@@ -110,7 +110,7 @@ export class ToDoList implements OnInit {
     this.toDoListService.removeById(id).subscribe({
       next: () => {
         this.refreshTrigger$.next();
-      }
+      },
     });
     this.selectedItemId.set(null);
     this.toastService.showToast(this.toastMessages.warning, 'warning');
@@ -121,7 +121,7 @@ export class ToDoList implements OnInit {
     this.toDoListService.update(toDo).subscribe({
       next: () => {
         this.refreshTrigger$.next();
-      }
+      },
     });
     this.hideAllTooltips();
     this.toastService.showToast(this.toastMessages.info, 'info');

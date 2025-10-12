@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { ToDoList } from './components/modules/to-do-list/to-do-list';
 import {
-  NoDescriptionItemView
+  NoDescriptionItemView,
 } from './components/modules/to-do-item-view/no-description-item-view/no-description-item-view';
 import { ToDoItemView } from './components/modules/to-do-item-view/to-do-item-view';
 
@@ -9,7 +9,7 @@ export const routes: Routes = [
   {
     path: '',
     redirectTo: '/tasks',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'tasks',
@@ -17,16 +17,16 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: NoDescriptionItemView
+        component: NoDescriptionItemView,
       },
       {
         path: ':id',
-        component: ToDoItemView
-      }
-    ]
+        component: ToDoItemView,
+      },
+    ],
   },
   {
     path: '**',
-    redirectTo: '/tasks'
-  }
+    redirectTo: '/tasks',
+  },
 ];

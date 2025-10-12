@@ -14,7 +14,7 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
   selector: 'app-to-do-item-view',
   imports: [
     Checkbox,
-    LoadingSpinner
+    LoadingSpinner,
   ],
   templateUrl: './to-do-item-view.html',
   styleUrl: './to-do-item-view.scss',
@@ -31,11 +31,11 @@ export class ToDoItemView {
         const id = paramMap.get('id');
         if (!id) return of(null);
         return this.toDoListService.getById(Number(id)).pipe(
-          map(todo => todo ?? null)
+          map(todo => todo ?? null),
         );
-      })
+      }),
     ),
-    { initialValue: null }
+    { initialValue: null },
   );
 
   protected description: Signal<string> = computed(() => this.item()?.description || EMPTY_DESCRIPTION);
@@ -46,7 +46,7 @@ export class ToDoItemView {
     const target = event.target as HTMLInputElement;
     const checked = target.checked;
     if (this.item()) {
-      const updatedTask: ToDo = { ...this.item()!!, status: checked ? 'COMPLETED' : 'IN_PROGRESS' };
+      const updatedTask: ToDo = { ...this.item()!, status: checked ? 'COMPLETED' : 'IN_PROGRESS' };
       this.toDoEventService.statusChanged(updatedTask);
     }
   }
