@@ -4,15 +4,15 @@ import { ToDo, ToDoDto, ToDos } from '../model/to-do';
 import { catchError, map, Observable, of } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToDoListApiService {
   private http: HttpClient = inject(HttpClient);
-  private path: string = '/todos';
+  private path = '/todos';
 
   public getAll(): Observable<ToDos> {
     return this.http.get<ToDo[]>(this.path).pipe(
-      map(items => ({ items }))
+      map(items => ({ items })),
     );
   }
 
@@ -23,7 +23,7 @@ export class ToDoListApiService {
           return of(undefined);
         }
         throw error;
-      })
+      }),
     );
   }
 

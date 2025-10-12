@@ -1,0 +1,49 @@
+:host {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.task-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+
+  &:hover {
+    transform: scale(1.02);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+:host::ng-deep .task-content app-loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+:host::ng-deep app-loading-spinner:has(> .task-description) {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+:host::ng-deep .task-content app-loading-spinner > .task-description {
+  flex: 1;
+  text-align: center;
+  background-color: #fff;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+:host::ng-deep .task-content app-loading-spinner > app-checkbox {
+  flex-shrink: 0;
+}

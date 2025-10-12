@@ -8,13 +8,6 @@
 
 <ng-template #showMode>
   <div class="task-content">
-    <app-checkbox
-      [itemId]="item().id"
-      [isChecked]="item().status === 'COMPLETED'"
-      (checked)="onStatusChange($event)"
-    >
-      Done
-    </app-checkbox>
     <span class="task-text">{{ item().text }}</span>
   </div>
   <app-button

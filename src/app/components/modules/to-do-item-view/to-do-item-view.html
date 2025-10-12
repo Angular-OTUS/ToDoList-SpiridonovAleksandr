@@ -1,0 +1,16 @@
+<div class="task-content">
+  <app-loading-spinner [isLoading]="isLoading()">
+    @if (item(); as task) {
+      <div class="task-description">
+        <span>{{ description() }}</span>
+      </div>
+      <app-checkbox
+        [itemId]="task.id"
+        [isChecked]="task.status === 'COMPLETED'"
+        (checked)="onStatusChange($event)"
+      >
+        Done
+      </app-checkbox>
+    }
+  </app-loading-spinner>
+</div>
