@@ -8,7 +8,7 @@ import { ToDoItemView } from './components/modules/to-do-item-view/to-do-item-vi
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/tasks',
+    redirectTo: 'tasks',
     pathMatch: 'full',
   },
   {
@@ -18,6 +18,7 @@ export const routes: Routes = [
       {
         path: '',
         component: NoDescriptionItemView,
+        pathMatch: 'full',
       },
       {
         path: ':id',
@@ -27,6 +28,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/tasks',
+    redirectTo: 'tasks',
   },
 ];
