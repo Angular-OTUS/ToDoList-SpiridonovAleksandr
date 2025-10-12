@@ -26,3 +26,7 @@
 
 Добавлены load spinner component, поле status, filter component,
 todo create item component, сервис для запросов в api
+
+#### Homework 7:
+
+Добавлены routing, компонент ToDoItemView
