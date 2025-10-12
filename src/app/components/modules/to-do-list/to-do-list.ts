@@ -114,6 +114,7 @@ export class ToDoList implements OnInit {
     });
     this.selectedItemId.set(null);
     this.toastService.showToast(this.toastMessages.warning, 'warning');
+    this.router.navigate(['tasks']);
   }
 
   protected saveTask(toDo: ToDo) {
