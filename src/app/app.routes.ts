@@ -27,6 +27,11 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'backlog',
+    loadComponent: () =>
+      import('./components/modules/backlog/backlog').then(m => m.Backlog)
+  },
+  {
     path: '**',
     redirectTo: 'tasks',
   },

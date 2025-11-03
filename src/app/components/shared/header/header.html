@@ -1,3 +1,10 @@
 <div class="header-container">
-  <span>{{ tab() }}</span>
+  <span>
+    <ng-content/>
+  </span>
+  <app-button
+    actionType="add"
+  >
+    New
+  </app-button>
 </div>

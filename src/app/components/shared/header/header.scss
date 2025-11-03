@@ -1,7 +1,20 @@
 .header-container {
-  width: 100%;
-  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
   background-color: #fafafa;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 35px;
+
+  span {
+    font-size: 1.4rem;
+    color: #ff7a5c;
+    align-items: center;
+  }
+
+  app-button {
+    width: 100px;
+  }
 }
