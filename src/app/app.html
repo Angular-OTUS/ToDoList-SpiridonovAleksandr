@@ -1,2 +1,9 @@
-<router-outlet/>
+<div class="app-container">
+  <app-navigation
+    [title]="title()"
+  />
+  <div class="content-container">
+    <router-outlet/>
+  </div>
+</div>
 <app-toast/>
