@@ -1,37 +1,35 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   DestroyRef,
   inject,
-  OnInit,
   Signal,
   signal,
   WritableSignal
 } from '@angular/core';
 import { Header } from '../../shared/header/header';
+import { EmptyList } from '../../shared/empty-list/empty-list';
 import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
 import { TODO_TOAST_MESSAGES } from '../../../tokens/to-do-toast.token';
 import { ToDoListApiService } from '../../../services/to-do-list.api.service';
 import { ToastService } from '../../../services/toast.service';
 import { ToDoEventService } from '../../../services/to-do-event.service';
 import { ToastType } from '../../../model/toast-dto';
-import { Tooltip } from '../../../directives/tooltip';
-import { filter, finalize, map, Observable, of, startWith, Subject, switchMap } from 'rxjs';
+import { finalize, map, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { ToDo, ToDos } from '../../../model/to-do';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { EmptyList } from '../../shared/empty-list/empty-list';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-backlog',
+  selector: 'app-board',
   imports: [
     Header,
+    EmptyList,
     LoadingSpinner,
     RouterOutlet,
-    ToDoListItem,
-    Tooltip,
-    EmptyList
+    ToDoListItem
   ],
   providers: [
     {
@@ -43,11 +41,11 @@ import { EmptyList } from '../../shared/empty-list/empty-list';
       },
     },
   ],
-  templateUrl: './backlog.html',
-  styleUrl: './backlog.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './board.html',
+  styleUrl: './board.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Backlog implements OnInit {
+export class Board {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly toDoListService: ToDoListApiService = inject(ToDoListApiService);
   private readonly router: Router = inject(Router);
@@ -57,8 +55,6 @@ export class Backlog implements OnInit {
   private readonly toastMessages: Record<ToastType, string> = inject(TODO_TOAST_MESSAGES);
 
   protected isLoading: WritableSignal<boolean> = signal<boolean>(false);
-
-  protected selectedItemId: WritableSignal<number | null> = signal<number | null>(null);
 
   private refreshTrigger$: Subject<void> = new Subject<void>();
   private toDos$: Observable<ToDos> = this.refreshTrigger$.pipe(
@@ -70,27 +66,21 @@ export class Backlog implements OnInit {
       );
     }),
   );
-  protected toDoList: Signal<ToDo[]> = toSignal(
-    this.toDos$.pipe(
-      map(toDos => toDos.items.filter(item => item.status === 'CREATED'))
-    ), {
-      initialValue: []
-    }
+  protected toDos: Signal<ToDos> = toSignal(this.toDos$, {
+    initialValue: { items: [] }
+  });
+
+  protected created: Signal<ToDo[]> = computed(() =>
+    this.toDos().items.filter(item => item.status === 'CREATED')
   );
 
-  ngOnInit(): void {
-    this.toDoEventService.statusChanged$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(task => this.saveTask(task));
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe((event) => {
-      if (event.urlAfterRedirects === '/backlog') {
-        this.selectedItemId.set(null);
-      }
-    });
-  }
+  protected inProgress: Signal<ToDo[]> = computed(() =>
+    this.toDos().items.filter(item => item.status === 'IN_PROGRESS')
+  );
+
+  protected completed: Signal<ToDo[]> = computed(() =>
+    this.toDos().items.filter(item => item.status === 'COMPLETED')
+  );
 
   protected deleteTask(id: number) {
     this.isLoading.set(true);
@@ -99,9 +89,8 @@ export class Backlog implements OnInit {
         this.refreshTrigger$.next();
       },
     });
-    this.selectedItemId.set(null);
     this.toastService.showToast(this.toastMessages.warning, 'warning');
-    this.router.navigate(['backlog']);
+    this.router.navigate(['board']);
   }
 
   protected saveTask(toDo: ToDo) {
@@ -112,11 +101,6 @@ export class Backlog implements OnInit {
     });
     this.hideAllTooltips();
     this.toastService.showToast(this.toastMessages.info, 'info');
-  }
-
-  protected onItemClick(id: number) {
-    this.selectedItemId.set(id);
-    this.router.navigate([id], { relativeTo: this.route });
   }
 
   private hideAllTooltips(): void {

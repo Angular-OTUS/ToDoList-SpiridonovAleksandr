@@ -4,9 +4,7 @@
   </app-header>
   <app-loading-spinner [isLoading]="isLoading()">
     @if (toDoList().length === 0) {
-      <div class="task-container-empty">
-        <span>Список задач пуст</span>
-      </div>
+      <app-empty-list/>
     } @else {
       <div class="task-container">
         <ul class="task-list">

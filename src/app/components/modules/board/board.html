@@ -1,0 +1,40 @@
+<div>
+  <app-header>
+    Board
+  </app-header>
+  <app-loading-spinner [isLoading]="isLoading()">
+    @if (toDos().items.length === 0) {
+      <app-empty-list/>
+    } @else {
+      <div class="task-container">
+        <ul class="task-list">
+          @for (toDo of created(); track toDo.id) {
+            <app-to-do-list-item
+              [item]="toDo"
+              (taskToRemove)="deleteTask($event)"
+              (taskToSave)="saveTask($event)"
+            />
+          }
+        </ul>
+        <ul class="task-list">
+          @for (toDo of inProgress(); track toDo.id) {
+            <app-to-do-list-item
+              [item]="toDo"
+              (taskToRemove)="deleteTask($event)"
+              (taskToSave)="saveTask($event)"
+            />
+          }
+        </ul>
+        <ul class="task-list">
+          @for (toDo of completed(); track toDo.id) {
+            <app-to-do-list-item
+              [item]="toDo"
+              (taskToRemove)="deleteTask($event)"
+              (taskToSave)="saveTask($event)"
+            />
+          }
+        </ul>
+      </div>
+    }
+  </app-loading-spinner>
+</div>
