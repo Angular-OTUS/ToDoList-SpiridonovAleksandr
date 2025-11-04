@@ -2,4 +2,29 @@
   <app-header>
     Backlog
   </app-header>
+  <app-loading-spinner [isLoading]="isLoading()">
+    @if (toDoList().length === 0) {
+      <div class="task-container-empty">
+        <span>Список задач пуст</span>
+      </div>
+    } @else {
+      <div class="task-container">
+        <ul class="task-list">
+          @for (toDo of toDoList(); track toDo.id) {
+            <app-to-do-list-item
+              [item]="toDo"
+              (taskToRemove)="deleteTask($event)"
+              (taskToSave)="saveTask($event)"
+              [isSelected]="toDo.id === selectedItemId()"
+              (click)="onItemClick(toDo.id)"
+              [appTooltip]="'Тисни здесь, чтоб увидеть описание задачи'"
+            />
+          }
+        </ul>
+        <div class="item-view-container">
+          <router-outlet />
+        </div>
+      </div>
+    }
+  </app-loading-spinner>
 </div>

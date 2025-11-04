@@ -29,7 +29,18 @@ export const routes: Routes = [
   {
     path: 'backlog',
     loadComponent: () =>
-      import('./components/modules/backlog/backlog').then(m => m.Backlog)
+      import('./components/modules/backlog/backlog').then(m => m.Backlog),
+    children: [
+      {
+        path: '',
+        component: NoDescriptionItemView,
+        pathMatch: 'full',
+      },
+      {
+        path: ':id',
+        component: ToDoItemView,
+      },
+    ],
   },
   {
     path: '**',
