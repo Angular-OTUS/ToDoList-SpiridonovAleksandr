@@ -70,7 +70,7 @@ export class Backlog implements OnInit {
   );
   protected toDoList: Signal<ToDo[]> = toSignal(
     this.toDos$.pipe(
-      map(toDos => toDos.items.filter(item => item.status === 'IN_PROGRESS'))
+      map(toDos => toDos.items.filter(item => item.status === 'CREATED'))
     ), {
       initialValue: []
     }
