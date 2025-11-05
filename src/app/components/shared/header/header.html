@@ -5,7 +5,15 @@
   <app-button
     actionType="add"
     tooltipPosition="under"
+    (click)="showModal.set(true)"
   >
     New
   </app-button>
 </div>
+
+<app-modal [isVisible]="showModal()" (closeEvent)="showModal.set(false)">
+  <div modal-title>Create new task</div>
+  <app-to-do-create-item
+    (taskToAdd)="onTaskAdded($event)"
+  />
+</app-modal>

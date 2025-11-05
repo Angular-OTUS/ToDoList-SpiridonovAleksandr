@@ -33,7 +33,7 @@ export class ToDoCreateItem {
     this.taskToAdd.emit({
       text: this.newTask(),
       description: this.newTaskDescription(),
-      status: 'IN_PROGRESS',
+      status: 'CREATED',
     });
     this.newTask.set('');
     this.newTaskDescription.set('');
