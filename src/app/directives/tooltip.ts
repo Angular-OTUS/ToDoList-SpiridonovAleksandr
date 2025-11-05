@@ -35,6 +35,7 @@ export class Tooltip implements OnDestroy {
     newElement.style.color = '#fff';
     newElement.style.padding = '8px';
     newElement.style.borderRadius = '4px';
+    newElement.style.zIndex = '1001';
     newElement.textContent = this.appTooltip();
     newElement.setAttribute('data-tooltip', '');
 
