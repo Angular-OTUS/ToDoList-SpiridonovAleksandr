@@ -9,7 +9,7 @@ import {
   Signal,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { Tooltip } from '../../../directives/tooltip';
+import { Tooltip, TooltipPosition } from '../../../directives/tooltip';
 
 type ButtonAction = 'add'|'delete'|'save';
 
@@ -25,7 +25,8 @@ type ButtonAction = 'add'|'delete'|'save';
 })
 export class Button {
   public actionType: InputSignal<ButtonAction> = input.required<ButtonAction>();
-  public isDisabled = input<boolean>(false);
+  public isDisabled: InputSignal<boolean> = input<boolean>(false);
+  public tooltipPosition: InputSignal<TooltipPosition> = input<TooltipPosition>('above');
 
   protected actionClass: Signal<string> = computed(() => {
     switch (this.actionType()) {

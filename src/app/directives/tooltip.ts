@@ -1,10 +1,13 @@
 import { Directive, ElementRef, HostListener, inject, input, InputSignal, OnDestroy } from '@angular/core';
 
+export type TooltipPosition = 'above' | 'under';
+
 @Directive({
   selector: '[appTooltip]',
 })
 export class Tooltip implements OnDestroy {
   public appTooltip: InputSignal<string> = input.required<string>();
+  public appTooltipPosition: InputSignal<TooltipPosition> = input<TooltipPosition>('above');
   private elementRef: ElementRef = inject(ElementRef);
   private tooltipElement: HTMLDivElement | null = null;
 
@@ -26,7 +29,7 @@ export class Tooltip implements OnDestroy {
     const newElement = document.createElement('div');
     newElement.classList.add('tooltip');
     newElement.style.position = 'absolute';
-    newElement.style.top = `${rect.top - newElement.offsetHeight - 40}px`;
+    newElement.style.top = this.calculateTooltipPosition(rect, newElement);
     newElement.style.left = `${rect.left}px`;
     newElement.style.backgroundColor = '#333';
     newElement.style.color = '#fff';
@@ -44,5 +47,10 @@ export class Tooltip implements OnDestroy {
       this.tooltipElement.parentNode.removeChild(this.tooltipElement);
       this.tooltipElement = null;
     }
+  }
+
+  private calculateTooltipPosition(rect: DOMRect, newElement: HTMLDivElement): string {
+    const offset = this.appTooltipPosition() === 'above' ? 40 : -40;
+    return `${rect.top - newElement.offsetHeight - offset}px`;
   }
 }

@@ -5,6 +5,7 @@
   [ngClass]="[actionClass()]"
   (click)="clicked.emit($event)"
   [appTooltip]="tooltipText()"
+  [appTooltipPosition]="tooltipPosition()"
 >
   <ng-content />
 </button>

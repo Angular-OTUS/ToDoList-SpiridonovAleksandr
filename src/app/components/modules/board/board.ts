@@ -11,14 +11,14 @@ import {
 import { Header } from '../../shared/header/header';
 import { EmptyList } from '../../shared/empty-list/empty-list';
 import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
 import { TODO_TOAST_MESSAGES } from '../../../tokens/to-do-toast.token';
 import { ToDoListApiService } from '../../../services/to-do-list.api.service';
 import { ToastService } from '../../../services/toast.service';
 import { ToDoEventService } from '../../../services/to-do-event.service';
 import { ToastType } from '../../../model/toast-dto';
-import { finalize, map, Observable, startWith, Subject, switchMap } from 'rxjs';
+import { finalize, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { ToDo, ToDos } from '../../../model/to-do';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -28,7 +28,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
     Header,
     EmptyList,
     LoadingSpinner,
-    RouterOutlet,
     ToDoListItem
   ],
   providers: [
