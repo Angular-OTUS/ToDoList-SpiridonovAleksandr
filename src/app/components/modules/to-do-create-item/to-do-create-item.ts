@@ -29,6 +29,11 @@ export class ToDoCreateItem {
   protected isNewTaskEmpty: Signal<boolean> = computed(() => this.newTask().length === 0);
   protected taskToAdd: OutputEmitterRef<ToDoDto> = output<ToDoDto>();
 
+  public resetForm() {
+    this.newTask.set('');
+    this.newTaskDescription.set('');
+  }
+
   protected onAdding() {
     this.taskToAdd.emit({
       text: this.newTask(),

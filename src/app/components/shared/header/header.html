@@ -11,7 +11,7 @@
   </app-button>
 </div>
 
-<app-modal [isVisible]="showModal()" (closeEvent)="showModal.set(false)">
+<app-modal [isVisible]="showModal()" (closeEvent)="onModalClose()">
   <div modal-title>Create new task</div>
   <app-to-do-create-item
     (taskToAdd)="onTaskAdded($event)"
