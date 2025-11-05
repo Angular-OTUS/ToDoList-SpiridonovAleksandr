@@ -18,7 +18,7 @@ import { ToastService } from '../../../services/toast.service';
 import { ToDoEventService } from '../../../services/to-do-event.service';
 import { ToastType } from '../../../model/toast-dto';
 import { Tooltip } from '../../../directives/tooltip';
-import { filter, finalize, map, Observable, of, startWith, Subject, switchMap } from 'rxjs';
+import { filter, finalize, map, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { ToDo, ToDoDto, ToDos } from '../../../model/to-do';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { EmptyList } from '../../shared/empty-list/empty-list';
@@ -99,7 +99,9 @@ export class Backlog implements OnInit {
         this.refreshTrigger$.next();
       },
     });
+    this.selectedItemId.set(null);
     this.toastService.showToast(this.toastMessages.success, 'success');
+    this.router.navigate(['backlog']);
   }
 
   protected deleteTask(id: number) {
@@ -115,6 +117,7 @@ export class Backlog implements OnInit {
   }
 
   protected saveTask(toDo: ToDo) {
+    this.isLoading.set(true);
     this.toDoListService.update(toDo).subscribe({
       next: () => {
         this.refreshTrigger$.next();
@@ -122,6 +125,7 @@ export class Backlog implements OnInit {
     });
     this.hideAllTooltips();
     this.toastService.showToast(this.toastMessages.info, 'info');
+    this.router.navigate(['backlog']);
   }
 
   protected onItemClick(id: number) {
