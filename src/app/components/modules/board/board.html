@@ -1,5 +1,7 @@
 <div>
-  <app-header>
+  <app-header
+    (taskToAdd)="addTask($event)"
+  >
     Board
   </app-header>
   <app-loading-spinner [isLoading]="isLoading()">

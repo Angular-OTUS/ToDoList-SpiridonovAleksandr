@@ -19,7 +19,7 @@ import { ToDoEventService } from '../../../services/to-do-event.service';
 import { ToastType } from '../../../model/toast-dto';
 import { Tooltip } from '../../../directives/tooltip';
 import { filter, finalize, map, Observable, of, startWith, Subject, switchMap } from 'rxjs';
-import { ToDo, ToDos } from '../../../model/to-do';
+import { ToDo, ToDoDto, ToDos } from '../../../model/to-do';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { EmptyList } from '../../shared/empty-list/empty-list';
 
@@ -90,6 +90,16 @@ export class Backlog implements OnInit {
         this.selectedItemId.set(null);
       }
     });
+  }
+
+  protected addTask(task: ToDoDto) {
+    this.isLoading.set(true);
+    this.toDoListService.add(task).subscribe({
+      next: () => {
+        this.refreshTrigger$.next();
+      },
+    });
+    this.toastService.showToast(this.toastMessages.success, 'success');
   }
 
   protected deleteTask(id: number) {

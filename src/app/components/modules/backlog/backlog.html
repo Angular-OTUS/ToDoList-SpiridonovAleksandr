@@ -1,5 +1,7 @@
 <div>
-  <app-header>
+  <app-header
+    (taskToAdd)="addTask($event)"
+  >
     Backlog
   </app-header>
   <app-loading-spinner [isLoading]="isLoading()">

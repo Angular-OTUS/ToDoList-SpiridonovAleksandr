@@ -19,7 +19,7 @@ import { ToastService } from '../../../services/toast.service';
 import { ToDoEventService } from '../../../services/to-do-event.service';
 import { ToastType } from '../../../model/toast-dto';
 import { finalize, Observable, startWith, Subject, switchMap } from 'rxjs';
-import { ToDo, ToDos } from '../../../model/to-do';
+import { ToDo, ToDoDto, ToDos } from '../../../model/to-do';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -80,6 +80,16 @@ export class Board {
   protected completed: Signal<ToDo[]> = computed(() =>
     this.toDos().items.filter(item => item.status === 'COMPLETED')
   );
+
+  protected addTask(task: ToDoDto) {
+    this.isLoading.set(true);
+    this.toDoListService.add(task).subscribe({
+      next: () => {
+        this.refreshTrigger$.next();
+      },
+    });
+    this.toastService.showToast(this.toastMessages.success, 'success');
+  }
 
   protected deleteTask(id: number) {
     this.isLoading.set(true);
