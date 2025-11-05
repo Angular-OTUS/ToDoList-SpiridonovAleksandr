@@ -19,8 +19,9 @@ import { ToastService } from '../../../services/toast.service';
 import { ToDoEventService } from '../../../services/to-do-event.service';
 import { ToastType } from '../../../model/toast-dto';
 import { finalize, Observable, startWith, Subject, switchMap } from 'rxjs';
-import { ToDo, ToDoDto, ToDos } from '../../../model/to-do';
+import { ToDo, ToDoDto, ToDos, ToDoStatus } from '../../../model/to-do';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-board',
@@ -28,7 +29,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
     Header,
     EmptyList,
     LoadingSpinner,
-    ToDoListItem
+    ToDoListItem,
+    DragDropModule,
   ],
   providers: [
     {
@@ -103,6 +105,7 @@ export class Board {
   }
 
   protected saveTask(toDo: ToDo) {
+    this.isLoading.set(true);
     this.toDoListService.update(toDo).subscribe({
       next: () => {
         this.refreshTrigger$.next();
@@ -110,6 +113,20 @@ export class Board {
     });
     this.hideAllTooltips();
     this.toastService.showToast(this.toastMessages.info, 'info');
+  }
+
+  protected onDrop(event: CdkDragDrop<ToDo[]>, targetStatus: ToDoStatus) {
+    const draggedItem = event.item.data as ToDo;
+
+    const previousStatus = draggedItem.status;
+    const isMovedToAnotherColumn = previousStatus !== targetStatus;
+
+    if (!isMovedToAnotherColumn) {
+      return;
+    }
+
+    const updatedTask = { ...draggedItem, status: targetStatus };
+    this.saveTask(updatedTask);
   }
 
   private hideAllTooltips(): void {
