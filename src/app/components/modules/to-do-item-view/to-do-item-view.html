@@ -4,13 +4,20 @@
       <div class="task-description">
         <span>{{ description() }}</span>
       </div>
-      <app-checkbox
-        [itemId]="task.id"
-        [isChecked]="task.status === 'COMPLETED'"
-        (checked)="onStatusChange($event)"
-      >
-        Done
-      </app-checkbox>
+      <div class="btn-container">
+        <app-button
+          actionType="save"
+          (click)="onStatusChange($event, 'IN_PROGRESS')"
+        >
+          In progress >>
+        </app-button>
+        <app-button
+          actionType="save"
+          (click)="onStatusChange($event, 'COMPLETED')"
+        >
+          Completed >>
+        </app-button>
+      </div>
     }
   </app-loading-spinner>
 </div>

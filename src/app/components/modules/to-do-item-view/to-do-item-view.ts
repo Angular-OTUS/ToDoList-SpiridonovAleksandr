@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal, Signal, WritableSignal } from '@angular/core';
-import { Checkbox } from '../../shared/checkbox/checkbox';
-import { ToDo } from '../../../model/to-do';
+import { ToDo, ToDoStatus } from '../../../model/to-do';
 import { ToDoListApiService } from '../../../services/to-do-list.api.service';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { finalize, map, of, switchMap } from 'rxjs';
 import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
 import { ToDoEventService } from '../../../services/to-do-event.service';
+import { Button } from '../../shared/button/button';
 
 const EMPTY_DESCRIPTION = 'Не заполнено';
 
 @Component({
   selector: 'app-to-do-item-view',
   imports: [
-    Checkbox,
     LoadingSpinner,
+    Button,
   ],
   templateUrl: './to-do-item-view.html',
   styleUrl: './to-do-item-view.scss',
@@ -44,12 +44,10 @@ export class ToDoItemView {
 
   protected description: Signal<string> = computed(() => this.item()?.description || EMPTY_DESCRIPTION);
 
-  protected onStatusChange(event: Event) {
+  protected onStatusChange(event: Event, targetStatus: ToDoStatus) {
     event.stopPropagation();
-    const target = event.target as HTMLInputElement;
-    const checked = target.checked;
     if (this.item()) {
-      const updatedTask: ToDo = { ...this.item()!, status: checked ? 'COMPLETED' : 'IN_PROGRESS' };
+      const updatedTask: ToDo = { ...this.item()!, status: targetStatus };
       this.toDoEventService.statusChanged(updatedTask);
     }
   }

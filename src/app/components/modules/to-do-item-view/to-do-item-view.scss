@@ -15,6 +15,12 @@
     transform: scale(1.02);
     transition: all 0.2s ease-in-out;
   }
+
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
 }
 
 :host::ng-deep .task-content app-loading-spinner {
@@ -42,8 +48,4 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   overflow: auto;
-}
-
-:host::ng-deep .task-content app-loading-spinner > app-checkbox {
-  flex-shrink: 0;
 }

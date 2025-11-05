@@ -39,8 +39,20 @@ export class Button {
     }
   });
 
-  protected tooltipText = computed(() =>
-    `Жмякни кнопочку для ${(this.actionType() === 'add') ? 'добавления' : 'удаления'}`);
+  protected tooltipText = computed(() => {
+    let action;
+    switch (this.actionType()) {
+      case "add":
+        action = 'добавления';
+        break
+      case "delete":
+        action = 'удаления';
+        break
+      default:
+        action = 'изменения';
+    }
+    return `Жмякни кнопочку для ${action}`
+  });
 
   protected clicked: OutputEmitterRef<Event> = output<Event>();
 }
