@@ -1,15 +1,16 @@
-<div class="todo-component">
-  <h1>Todo list</h1>
-  <app-to-do-filter (statusChanged)="onFilterChange($event)" />
+<div>
+  <app-header
+    (taskToAdd)="addTask($event)"
+  >
+    Backlog
+  </app-header>
   <app-loading-spinner [isLoading]="isLoading()">
-    @if (filteredToDoList().length === 0) {
-      <div class="task-container-empty">
-        <span>Список задач пуст</span>
-      </div>
+    @if (toDoList().length === 0) {
+      <app-empty-list/>
     } @else {
       <div class="task-container">
         <ul class="task-list">
-          @for (toDo of filteredToDoList(); track toDo.id) {
+          @for (toDo of toDoList(); track toDo.id) {
             <app-to-do-list-item
               [item]="toDo"
               (taskToRemove)="deleteTask($event)"
@@ -26,7 +27,4 @@
       </div>
     }
   </app-loading-spinner>
-  <app-to-do-create-item
-    (taskToAdd)="addTask($event)"
-  />
 </div>

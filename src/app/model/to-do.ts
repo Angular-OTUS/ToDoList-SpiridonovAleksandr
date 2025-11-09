@@ -2,7 +2,7 @@ export interface ToDos {
   items: ToDo[];
 }
 
-export type ToDoStatus = 'IN_PROGRESS' | 'COMPLETED';
+export type ToDoStatus = 'CREATED' | 'IN_PROGRESS' | 'COMPLETED';
 
 export type ToDoFilterStatus = ToDoStatus | 'ALL';
 

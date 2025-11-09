@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ToDoFilter } from './to-do-filter';
+import { Modal } from './modal';
 
-describe('ToDoFilter', () => {
-  let component: ToDoFilter;
-  let fixture: ComponentFixture<ToDoFilter>;
+describe('Modal', () => {
+  let component: Modal;
+  let fixture: ComponentFixture<Modal>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ToDoFilter],
+      imports: [Modal]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ToDoFilter);
+    fixture = TestBed.createComponent(Modal);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

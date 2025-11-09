@@ -1,0 +1,78 @@
+<div>
+  <app-header
+    (taskToAdd)="addTask($event)"
+  >
+    Board
+  </app-header>
+  <app-loading-spinner [isLoading]="isLoading()">
+    @if (toDos().items.length === 0) {
+      <app-empty-list/>
+    } @else {
+      <div cdkDropListGroup class="task-container">
+        <!-- CREATED -->
+        <div
+          cdkDropList
+          [cdkDropListData]="created()"
+          cdkDropListSortingDisabled="false"
+          (cdkDropListDropped)="onDrop($event, 'CREATED')"
+          class="task-list-wrapper"
+        >
+          <h3>Created</h3>
+          <ul class="task-list">
+            @for (toDo of created(); track toDo.id) {
+              <li cdkDrag [cdkDragData]="toDo" class="drag-item">
+                <app-to-do-list-item
+                  [item]="toDo"
+                  (taskToRemove)="deleteTask($event)"
+                  (taskToSave)="saveTask($event)"
+                />
+              </li>
+            }
+          </ul>
+        </div>
+
+        <!-- IN_PROGRESS -->
+        <div
+          cdkDropList
+          [cdkDropListData]="inProgress()"
+          (cdkDropListDropped)="onDrop($event, 'IN_PROGRESS')"
+          class="task-list-wrapper"
+        >
+          <h3>In progress</h3>
+          <ul class="task-list">
+            @for (toDo of inProgress(); track toDo.id) {
+              <li cdkDrag [cdkDragData]="toDo" class="drag-item">
+                <app-to-do-list-item
+                  [item]="toDo"
+                  (taskToRemove)="deleteTask($event)"
+                  (taskToSave)="saveTask($event)"
+                />
+              </li>
+            }
+          </ul>
+        </div>
+
+        <!-- COMPLETED -->
+        <div
+          cdkDropList
+          [cdkDropListData]="completed()"
+          (cdkDropListDropped)="onDrop($event, 'COMPLETED')"
+          class="task-list-wrapper"
+        >
+          <h3>Completed</h3>
+          <ul class="task-list">
+            @for (toDo of completed(); track toDo.id) {
+              <li cdkDrag [cdkDragData]="toDo" class="drag-item">
+                <app-to-do-list-item
+                  [item]="toDo"
+                  (taskToRemove)="deleteTask($event)"
+                  (taskToSave)="saveTask($event)"
+                />
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    }
+  </app-loading-spinner>
+</div>

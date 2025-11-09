@@ -4,38 +4,33 @@ import {
   computed,
   DestroyRef,
   inject,
-  OnInit,
+  Signal,
   signal,
-  WritableSignal,
+  WritableSignal
 } from '@angular/core';
-import { ToDo, ToDoDto, ToDoFilterStatus, ToDos } from '../../../model/to-do';
-import { FormsModule } from '@angular/forms';
-import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Tooltip } from '../../../directives/tooltip';
-import { ToastService } from '../../../services/toast.service';
-import { TODO_TOAST_MESSAGES } from '../../../tokens/to-do-toast.token';
-import { ToastType } from '../../../model/toast-dto';
+import { Header } from '../../shared/header/header';
+import { EmptyList } from '../../shared/empty-list/empty-list';
 import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
-import { ToDoFilter } from '../to-do-filter/to-do-filter';
-import { ToDoCreateItem } from '../to-do-create-item/to-do-create-item';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
+import { TODO_TOAST_MESSAGES } from '../../../tokens/to-do-toast.token';
 import { ToDoListApiService } from '../../../services/to-do-list.api.service';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { finalize, Observable, startWith, Subject, switchMap } from 'rxjs';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { ToastService } from '../../../services/toast.service';
 import { ToDoEventService } from '../../../services/to-do-event.service';
+import { ToastType } from '../../../model/toast-dto';
+import { finalize, Observable, startWith, Subject, switchMap } from 'rxjs';
+import { ToDo, ToDoDto, ToDos, ToDoStatus } from '../../../model/to-do';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'app-to-do-list',
+  selector: 'app-board',
   imports: [
-    FormsModule,
-    MatProgressSpinnerModule,
-    ToDoListItem,
-    Tooltip,
+    Header,
+    EmptyList,
     LoadingSpinner,
-    ToDoFilter,
-    ToDoCreateItem,
-    RouterOutlet,
+    ToDoListItem,
+    DragDropModule,
   ],
   providers: [
     {
@@ -47,11 +42,11 @@ import { ToDoEventService } from '../../../services/to-do-event.service';
       },
     },
   ],
-  templateUrl: './to-do-list.html',
-  styleUrl: './to-do-list.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './board.html',
+  styleUrl: './board.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToDoList implements OnInit {
+export class Board {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly toDoListService: ToDoListApiService = inject(ToDoListApiService);
   private readonly router: Router = inject(Router);
@@ -61,8 +56,6 @@ export class ToDoList implements OnInit {
   private readonly toastMessages: Record<ToastType, string> = inject(TODO_TOAST_MESSAGES);
 
   protected isLoading: WritableSignal<boolean> = signal<boolean>(false);
-
-  protected selectedItemId: WritableSignal<number | null> = signal<number | null>(null);
 
   private refreshTrigger$: Subject<void> = new Subject<void>();
   private toDos$: Observable<ToDos> = this.refreshTrigger$.pipe(
@@ -74,26 +67,21 @@ export class ToDoList implements OnInit {
       );
     }),
   );
-  private toDos = toSignal(this.toDos$, {
-    initialValue: undefined,
+  protected toDos: Signal<ToDos> = toSignal(this.toDos$, {
+    initialValue: { items: [] }
   });
 
-  protected filterStatus: WritableSignal<ToDoFilterStatus> = signal<ToDoFilterStatus>('ALL');
-  protected filteredToDoList = computed(() => {
-    const status = this.filterStatus();
-    if (this.toDos()) {
-      const items = this.toDos()!.items;
-      return (status === 'ALL') ? items : items.filter(item => item.status === status);
-    } else {
-      return [];
-    }
-  });
+  protected created: Signal<ToDo[]> = computed(() =>
+    this.toDos().items.filter(item => item.status === 'CREATED')
+  );
 
-  ngOnInit(): void {
-    this.toDoEventService.statusChanged$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(task => this.saveTask(task));
-  }
+  protected inProgress: Signal<ToDo[]> = computed(() =>
+    this.toDos().items.filter(item => item.status === 'IN_PROGRESS')
+  );
+
+  protected completed: Signal<ToDo[]> = computed(() =>
+    this.toDos().items.filter(item => item.status === 'COMPLETED')
+  );
 
   protected addTask(task: ToDoDto) {
     this.isLoading.set(true);
@@ -112,12 +100,12 @@ export class ToDoList implements OnInit {
         this.refreshTrigger$.next();
       },
     });
-    this.selectedItemId.set(null);
     this.toastService.showToast(this.toastMessages.warning, 'warning');
-    this.router.navigate(['tasks']);
+    this.router.navigate(['board']);
   }
 
   protected saveTask(toDo: ToDo) {
+    this.isLoading.set(true);
     this.toDoListService.update(toDo).subscribe({
       next: () => {
         this.refreshTrigger$.next();
@@ -127,15 +115,18 @@ export class ToDoList implements OnInit {
     this.toastService.showToast(this.toastMessages.info, 'info');
   }
 
-  protected onItemClick(id: number) {
-    this.selectedItemId.set(id);
-    this.router.navigate([id], { relativeTo: this.route });
-  }
+  protected onDrop(event: CdkDragDrop<ToDo[]>, targetStatus: ToDoStatus) {
+    const draggedItem = event.item.data as ToDo;
 
-  protected onFilterChange(status: ToDoFilterStatus) {
-    this.selectedItemId.set(null);
-    this.filterStatus.set(status);
-    this.router.navigate(['tasks']);
+    const previousStatus = draggedItem.status;
+    const isMovedToAnotherColumn = previousStatus !== targetStatus;
+
+    if (!isMovedToAnotherColumn) {
+      return;
+    }
+
+    const updatedTask = { ...draggedItem, status: targetStatus };
+    this.saveTask(updatedTask);
   }
 
   private hideAllTooltips(): void {

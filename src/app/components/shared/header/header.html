@@ -1,0 +1,19 @@
+<div class="header-container">
+  <span>
+    <ng-content/>
+  </span>
+  <app-button
+    actionType="add"
+    tooltipPosition="under"
+    (click)="showModal.set(true)"
+  >
+    New
+  </app-button>
+</div>
+
+<app-modal [isVisible]="showModal()" (closeEvent)="onModalClose()">
+  <div modal-title>Create new task</div>
+  <app-to-do-create-item
+    (taskToAdd)="onTaskAdded($event)"
+  />
+</app-modal>

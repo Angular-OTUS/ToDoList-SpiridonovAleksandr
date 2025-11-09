@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+}
+
+.navigation {
+  background-color: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+
+  div {
+    margin: 0.5rem;
+    padding: 3px;
+  }
+
+  .title {
+    font-size: 2rem;
+    color: #ff7a5c;
+  }
+}
+
+.active {
+  background-color: #f2f2f2;
+}

@@ -1,0 +1,17 @@
+<div class="navigation">
+  <div class="title">
+    {{ title() }}
+  </div>
+  <div
+    [routerLinkActive]="['active']"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <a [routerLink]="['backlog']">Backlog</a>
+  </div>
+  <div
+    [routerLinkActive]="['active']"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <a [routerLink]="['board']">Board</a>
+  </div>
+</div>

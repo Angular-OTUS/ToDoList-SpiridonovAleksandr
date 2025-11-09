@@ -30,3 +30,7 @@ todo create item component, сервис для запросов в api
 #### Homework 7:
 
 Добавлены routing, компонент ToDoItemView
+
+#### Homework 8:
+
+Добавлены компоненты backlog и board, проведен рефакторинг
