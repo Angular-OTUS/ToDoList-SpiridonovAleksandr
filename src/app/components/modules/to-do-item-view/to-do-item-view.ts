@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, Signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
 import { ToDo, ToDoStatus } from '../../../model/to-do';
-import { ToDoListApiService } from '../../../services/to-do-list.api.service';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { finalize, map, of, switchMap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
 import { ToDoEventService } from '../../../services/to-do-event.service';
 import { Button } from '../../shared/button/button';
+import { ToDoStore } from '../../../state/to-do.store';
 
 const EMPTY_DESCRIPTION = 'Не заполнено';
 
@@ -21,22 +21,16 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToDoItemView {
-  private readonly toDoListService: ToDoListApiService = inject(ToDoListApiService);
   private readonly toDoEventService: ToDoEventService = inject(ToDoEventService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
-
-  protected isLoading: WritableSignal<boolean> = signal<boolean>(false);
+  protected readonly store = inject(ToDoStore);
 
   protected item: Signal<ToDo | null> = toSignal(
     this.route.paramMap.pipe(
       switchMap(paramMap => {
         const id = paramMap.get('id');
         if (!id) return of(null);
-        this.isLoading.set(true);
-        return this.toDoListService.getById(Number(id)).pipe(
-          map(todo => todo ?? null),
-          finalize(() => this.isLoading.set(false)),
-        );
+        return of(this.store.entities().find(item => item.id === Number(id)) ?? null);
       }),
     ),
     { initialValue: null },
