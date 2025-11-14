@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { Header } from '../../shared/header/header';
 import { EmptyList } from '../../shared/empty-list/empty-list';
 import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
@@ -34,11 +34,15 @@ import { ToDoStore } from '../../../state/to-do.store';
   styleUrl: './board.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Board {
+export class Board implements OnInit {
   private readonly router: Router = inject(Router);
   private readonly toastService: ToastService = inject(ToastService);
   private readonly toastMessages: Record<ToastType, string> = inject(TODO_TOAST_MESSAGES);
   protected readonly store = inject(ToDoStore);
+
+  ngOnInit(): void {
+    this.store.getAll();
+  }
 
   protected addTask(task: ToDoDto) {
     this.store.add(task);
