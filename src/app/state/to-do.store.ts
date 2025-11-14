@@ -1,7 +1,7 @@
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { removeEntity, setAllEntities, setEntity, updateEntity, withEntities } from '@ngrx/signals/entities';
 import { ToDo, ToDoDto } from '../model/to-do';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { ToDoListApiService } from '../services/to-do-list.api.service';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
@@ -11,6 +11,11 @@ export const ToDoStore = signalStore(
   { providedIn: 'root' },
   withState({ isLoading: false }),
   withEntities<ToDo>(),
+  withComputed((store) => ({
+    createdToDos: computed(() => store.entities().filter(item => item.status === 'CREATED')),
+    inProgressToDos: computed(() => store.entities().filter(item => item.status === 'IN_PROGRESS')),
+    completedToDos: computed(() => store.entities().filter(item => item.status === 'COMPLETED'))
+  })),
   withMethods((store, apiService = inject(ToDoListApiService)) => ({
     getAll: rxMethod<void>(
       pipe(
