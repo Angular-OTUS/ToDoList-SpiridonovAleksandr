@@ -4,22 +4,22 @@
   >
     Board
   </app-header>
-  <app-loading-spinner [isLoading]="isLoading()">
-    @if (toDos().items.length === 0) {
+  <app-loading-spinner [isLoading]="store.isLoading()">
+    @if (store.ids().length === 0) {
       <app-empty-list/>
     } @else {
       <div cdkDropListGroup class="task-container">
         <!-- CREATED -->
         <div
           cdkDropList
-          [cdkDropListData]="created()"
+          [cdkDropListData]="store.createdToDos()"
           cdkDropListSortingDisabled="false"
           (cdkDropListDropped)="onDrop($event, 'CREATED')"
           class="task-list-wrapper"
         >
           <h3>Created</h3>
           <ul class="task-list">
-            @for (toDo of created(); track toDo.id) {
+            @for (toDo of store.createdToDos(); track toDo.id) {
               <li cdkDrag [cdkDragData]="toDo" class="drag-item">
                 <app-to-do-list-item
                   [item]="toDo"
@@ -34,13 +34,13 @@
         <!-- IN_PROGRESS -->
         <div
           cdkDropList
-          [cdkDropListData]="inProgress()"
+          [cdkDropListData]="store.inProgressToDos()"
           (cdkDropListDropped)="onDrop($event, 'IN_PROGRESS')"
           class="task-list-wrapper"
         >
           <h3>In progress</h3>
           <ul class="task-list">
-            @for (toDo of inProgress(); track toDo.id) {
+            @for (toDo of store.inProgressToDos(); track toDo.id) {
               <li cdkDrag [cdkDragData]="toDo" class="drag-item">
                 <app-to-do-list-item
                   [item]="toDo"
@@ -55,13 +55,13 @@
         <!-- COMPLETED -->
         <div
           cdkDropList
-          [cdkDropListData]="completed()"
+          [cdkDropListData]="store.completedToDos()"
           (cdkDropListDropped)="onDrop($event, 'COMPLETED')"
           class="task-list-wrapper"
         >
           <h3>Completed</h3>
           <ul class="task-list">
-            @for (toDo of completed(); track toDo.id) {
+            @for (toDo of store.completedToDos(); track toDo.id) {
               <li cdkDrag [cdkDragData]="toDo" class="drag-item">
                 <app-to-do-list-item
                   [item]="toDo"
