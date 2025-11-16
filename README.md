@@ -34,3 +34,7 @@ todo create item component, сервис для запросов в api
 #### Homework 8:
 
 Добавлены компоненты backlog и board, проведен рефакторинг
+
+#### Homework 9:
+
+Добавлен NgRx Signal Store, проведен рефакторинг

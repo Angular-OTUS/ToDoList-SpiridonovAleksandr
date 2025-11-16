@@ -1,6 +1,6 @@
 <div class="task-content">
-  <app-loading-spinner [isLoading]="isLoading()">
-    @if (item(); as task) {
+  <app-loading-spinner [isLoading]="store.isLoading()">
+    @if (item()) {
       <div class="task-description">
         <span>{{ description() }}</span>
       </div>

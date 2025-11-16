@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToDo, ToDoDto, ToDos } from '../model/to-do';
-import { catchError, map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,17 +13,6 @@ export class ToDoListApiService {
   public getAll(): Observable<ToDos> {
     return this.http.get<ToDo[]>(this.path).pipe(
       map(items => ({ items })),
-    );
-  }
-
-  public getById(id: number): Observable<ToDo | undefined> {
-    return this.http.get<ToDo>(`${this.path}/${id}`).pipe(
-      catchError(error => {
-        if (error.status === 404) {
-          return of(undefined);
-        }
-        throw error;
-      }),
     );
   }
 

@@ -1,4 +1,4 @@
-import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { ToastDto, ToastType } from '../model/toast-dto';
 
 @Injectable({
@@ -9,7 +9,6 @@ export class ToastService {
   private nextId = 1;
 
   public currentToasts: Signal<ToastDto[]> = this.toasts.asReadonly();
-  public hasToasts: Signal<boolean> = computed(() => this.toasts().length > 0);
 
   showToast(
     message: string,

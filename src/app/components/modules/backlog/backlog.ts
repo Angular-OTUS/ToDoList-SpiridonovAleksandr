@@ -1,27 +1,18 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-  Signal,
-  signal,
-  WritableSignal
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { Header } from '../../shared/header/header';
 import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ToDoListItem } from '../to-do-list-item/to-do-list-item';
 import { TODO_TOAST_MESSAGES } from '../../../tokens/to-do-toast.token';
-import { ToDoListApiService } from '../../../services/to-do-list.api.service';
 import { ToastService } from '../../../services/toast.service';
 import { ToDoEventService } from '../../../services/to-do-event.service';
 import { ToastType } from '../../../model/toast-dto';
 import { Tooltip } from '../../../directives/tooltip';
-import { filter, finalize, map, Observable, startWith, Subject, switchMap } from 'rxjs';
-import { ToDo, ToDoDto, ToDos } from '../../../model/to-do';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
+import { ToDo, ToDoDto } from '../../../model/to-do';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EmptyList } from '../../shared/empty-list/empty-list';
+import { ToDoStore } from '../../../state/to-do.store';
 
 @Component({
   selector: 'app-backlog',
@@ -49,36 +40,18 @@ import { EmptyList } from '../../shared/empty-list/empty-list';
 })
 export class Backlog implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
-  private readonly toDoListService: ToDoListApiService = inject(ToDoListApiService);
   private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly toastService: ToastService = inject(ToastService);
   private readonly toDoEventService: ToDoEventService = inject(ToDoEventService);
   private readonly toastMessages: Record<ToastType, string> = inject(TODO_TOAST_MESSAGES);
-
-  protected isLoading: WritableSignal<boolean> = signal<boolean>(false);
+  protected readonly store = inject(ToDoStore);
 
   protected selectedItemId: WritableSignal<number | null> = signal<number | null>(null);
 
-  private refreshTrigger$: Subject<void> = new Subject<void>();
-  private toDos$: Observable<ToDos> = this.refreshTrigger$.pipe(
-    startWith(undefined),
-    switchMap(() => {
-      this.isLoading.set(true);
-      return this.toDoListService.getAll().pipe(
-        finalize(() => this.isLoading.set(false)),
-      );
-    }),
-  );
-  protected toDoList: Signal<ToDo[]> = toSignal(
-    this.toDos$.pipe(
-      map(toDos => toDos.items.filter(item => item.status === 'CREATED'))
-    ), {
-      initialValue: []
-    }
-  );
-
   ngOnInit(): void {
+    this.store.getAll();
+
     this.toDoEventService.statusChanged$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(task => this.saveTask(task));
@@ -93,36 +66,21 @@ export class Backlog implements OnInit {
   }
 
   protected addTask(task: ToDoDto) {
-    this.isLoading.set(true);
-    this.toDoListService.add(task).subscribe({
-      next: () => {
-        this.refreshTrigger$.next();
-      },
-    });
+    this.store.add(task);
     this.selectedItemId.set(null);
     this.toastService.showToast(this.toastMessages.success, 'success');
     this.router.navigate(['backlog']);
   }
 
   protected deleteTask(id: number) {
-    this.isLoading.set(true);
-    this.toDoListService.removeById(id).subscribe({
-      next: () => {
-        this.refreshTrigger$.next();
-      },
-    });
+    this.store.removeById(id);
     this.selectedItemId.set(null);
     this.toastService.showToast(this.toastMessages.warning, 'warning');
     this.router.navigate(['backlog']);
   }
 
   protected saveTask(toDo: ToDo) {
-    this.isLoading.set(true);
-    this.toDoListService.update(toDo).subscribe({
-      next: () => {
-        this.refreshTrigger$.next();
-      },
-    });
+    this.store.update(toDo);
     this.hideAllTooltips();
     this.toastService.showToast(this.toastMessages.info, 'info');
     this.router.navigate(['backlog']);

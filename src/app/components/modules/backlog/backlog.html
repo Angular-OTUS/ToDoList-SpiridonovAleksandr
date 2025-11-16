@@ -4,13 +4,13 @@
   >
     Backlog
   </app-header>
-  <app-loading-spinner [isLoading]="isLoading()">
-    @if (toDoList().length === 0) {
+  <app-loading-spinner [isLoading]="store.isLoading()">
+    @if (store.createdToDos().length === 0) {
       <app-empty-list/>
     } @else {
       <div class="task-container">
         <ul class="task-list">
-          @for (toDo of toDoList(); track toDo.id) {
+          @for (toDo of store.createdToDos(); track toDo.id) {
             <app-to-do-list-item
               [item]="toDo"
               (taskToRemove)="deleteTask($event)"
