@@ -14,7 +14,7 @@ export const ToDoStore = signalStore(
   withComputed((store) => ({
     createdToDos: computed(() => store.entities().filter(item => item.status === 'CREATED')),
     inProgressToDos: computed(() => store.entities().filter(item => item.status === 'IN_PROGRESS')),
-    completedToDos: computed(() => store.entities().filter(item => item.status === 'COMPLETED'))
+    completedToDos: computed(() => store.entities().filter(item => item.status === 'COMPLETED')),
   })),
   withMethods((store, apiService = inject(ToDoListApiService)) => ({
     getAll: rxMethod<void>(
@@ -25,11 +25,11 @@ export const ToDoStore = signalStore(
             tapResponse({
               next: response => patchState(store, setAllEntities(response.items)),
               error: console.error,
-              finalize: () => patchState(store, { isLoading: false })
-            })
+              finalize: () => patchState(store, { isLoading: false }),
+            }),
           )
-        })
-      )
+        }),
+      ),
     ),
 
     add: rxMethod<ToDoDto>(
@@ -40,11 +40,11 @@ export const ToDoStore = signalStore(
             tapResponse({
               next: response => patchState(store, setEntity(response)),
               error: console.error,
-              finalize: () => patchState(store, { isLoading: false })
-            })
+              finalize: () => patchState(store, { isLoading: false }),
+            }),
           )
-        })
-      )
+        }),
+      ),
     ),
 
     update: rxMethod<ToDo>(
@@ -55,11 +55,11 @@ export const ToDoStore = signalStore(
             tapResponse({
               next: response => patchState(store, updateEntity({ id: toDo.id, changes: { ...response }})),
               error: console.error,
-              finalize: () => patchState(store, { isLoading: false })
-            })
+              finalize: () => patchState(store, { isLoading: false }),
+            }),
           )
-        })
-      )
+        }),
+      ),
     ),
 
     removeById: rxMethod<number>(
@@ -70,11 +70,11 @@ export const ToDoStore = signalStore(
             tapResponse({
               next: () => patchState(store, removeEntity(id)),
               error: console.error,
-              finalize: () => patchState(store, { isLoading: false })
-            })
+              finalize: () => patchState(store, { isLoading: false }),
+            }),
           )
-        })
-      )
+        }),
+      ),
     ),
-  }))
+  })),
 );

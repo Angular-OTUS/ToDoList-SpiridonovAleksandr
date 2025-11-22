@@ -32,7 +32,7 @@ import { ToDoStore } from '../../../state/to-do.store';
   ],
   templateUrl: './board.html',
   styleUrl: './board.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Board implements OnInit {
   private readonly router: Router = inject(Router);

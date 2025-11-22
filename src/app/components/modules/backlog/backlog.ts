@@ -22,7 +22,7 @@ import { ToDoStore } from '../../../state/to-do.store';
     RouterOutlet,
     ToDoListItem,
     Tooltip,
-    EmptyList
+    EmptyList,
   ],
   providers: [
     {
@@ -57,7 +57,7 @@ export class Backlog implements OnInit {
       .subscribe(task => this.saveTask(task));
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
-      takeUntilDestroyed(this.destroyRef)
+      takeUntilDestroyed(this.destroyRef),
     ).subscribe((event) => {
       if (event.urlAfterRedirects === '/backlog') {
         this.selectedItemId.set(null);

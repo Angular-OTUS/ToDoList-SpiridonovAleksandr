@@ -9,10 +9,10 @@ import { ToDoDto } from '../../../model/to-do';
   imports: [
     Button,
     Modal,
-    ToDoCreateItem
+    ToDoCreateItem,
   ],
   templateUrl: './header.html',
-  styleUrl: './header.scss'
+  styleUrl: './header.scss',
 })
 export class Header {
   protected showModal: WritableSignal<boolean> = signal<boolean>(false);

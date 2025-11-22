@@ -5,10 +5,10 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   selector: 'app-navigation',
   imports: [
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
   ],
   templateUrl: './navigation.html',
-  styleUrl: './navigation.scss'
+  styleUrl: './navigation.scss',
 })
 export class Navigation {
   public title: InputSignal<string> = input.required<string>();

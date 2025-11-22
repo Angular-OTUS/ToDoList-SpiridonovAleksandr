@@ -29,7 +29,7 @@ export const routes: Routes = [
   {
     path: 'board',
     loadComponent: () =>
-      import('./components/modules/board/board').then(m => m.Board)
+      import('./components/modules/board/board').then(m => m.Board),
   },
   {
     path: '**',
