@@ -1,5 +1,9 @@
 {
   "app": {
     "title": "Доска задач"
+  },
+  "navigation": {
+    "backlog": "В работу",
+    "board": "Доска"
   }
 }

@@ -1,5 +1,9 @@
 {
   "app": {
     "title": "TasksBoard"
+  },
+  "navigation": {
+    "backlog": "Backlog",
+    "board": "Board"
   }
 }
