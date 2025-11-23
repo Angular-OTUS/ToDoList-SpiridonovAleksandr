@@ -15,6 +15,6 @@ export class NoDescriptionItemView {
   private readonly translate = inject(TranslateService);
   protected title = toSignal(
     this.translate.stream('view.title'),
-    { initialValue: DEFAULT_TITLE }
+    { initialValue: DEFAULT_TITLE },
   );
 }

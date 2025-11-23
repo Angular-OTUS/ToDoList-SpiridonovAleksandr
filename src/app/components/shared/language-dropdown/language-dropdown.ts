@@ -2,16 +2,16 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormsModule } from '@angular/forms';
 import { Language, TranslateService } from '@ngx-translate/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map, startWith, tap } from 'rxjs';
+import { map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-language-dropdown',
   imports: [
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './language-dropdown.html',
   styleUrl: './language-dropdown.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LanguageDropdown {
   private readonly translate = inject(TranslateService);
@@ -19,9 +19,9 @@ export class LanguageDropdown {
   protected currentLang = toSignal(
     this.translate.onLangChange.pipe(
       map(event => event.lang),
-      startWith(this.translate.getCurrentLang())
+      startWith(this.translate.getCurrentLang()),
     ),
-    { initialValue: 'en' }
+    { initialValue: 'en' },
   );
 
   protected switchTo(event: Event) {

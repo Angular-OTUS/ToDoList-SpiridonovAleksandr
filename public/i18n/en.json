@@ -27,5 +27,16 @@
     "created": "Created",
     "in-progress": "In progress",
     "completed": "Completed"
+  },
+  "tooltip": {
+    "task-description": "Click here to see the task description",
+    "add-btn-click": "Click the button for adding",
+    "delete-btn-click": "Click the button for deleting",
+    "save-btn-click": "Click the button for saving"
+  },
+  "toast": {
+    "add": "Task added successfully",
+    "delete": "Task deleted",
+    "save": "Task saved"
   }
 }

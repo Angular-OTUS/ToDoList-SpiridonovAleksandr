@@ -8,7 +8,7 @@ describe('LanguageDropdown', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LanguageDropdown]
+      imports: [LanguageDropdown],
     })
     .compileComponents();
 

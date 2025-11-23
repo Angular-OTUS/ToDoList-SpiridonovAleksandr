@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   InputSignal,
   output,
@@ -10,6 +11,8 @@ import {
 } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Tooltip, TooltipPosition } from '../../../directives/tooltip';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { TranslateService } from '@ngx-translate/core';
 
 type ButtonAction = 'add'|'delete'|'save';
 
@@ -24,6 +27,7 @@ type ButtonAction = 'add'|'delete'|'save';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Button {
+  private readonly translate = inject(TranslateService);
   public actionType: InputSignal<ButtonAction> = input.required<ButtonAction>();
   public isDisabled: InputSignal<boolean> = input<boolean>(false);
   public tooltipPosition: InputSignal<TooltipPosition> = input<TooltipPosition>('above');
@@ -39,19 +43,34 @@ export class Button {
     }
   });
 
+  private tooltipAddMessage: Signal<string> = toSignal(
+    this.translate.stream('tooltip.add-btn-click'),
+    { initialValue: null },
+  );
+
+  private tooltipDeleteMessage: Signal<string> = toSignal(
+    this.translate.stream('tooltip.delete-btn-click'),
+    { initialValue: null },
+  );
+
+  private tooltipSaveMessage: Signal<string> = toSignal(
+    this.translate.stream('tooltip.save-btn-click'),
+    { initialValue: null },
+  );
+
   protected tooltipText = computed(() => {
     let action;
     switch (this.actionType()) {
       case "add":
-        action = 'добавления';
+        action = this.tooltipAddMessage();
         break
       case "delete":
-        action = 'удаления';
+        action = this.tooltipDeleteMessage();
         break
       default:
-        action = 'изменения';
+        action = this.tooltipSaveMessage();
     }
-    return `Жмякни кнопочку для ${action}`
+    return action;
   });
 
   protected clicked: OutputEmitterRef<Event> = output<Event>();

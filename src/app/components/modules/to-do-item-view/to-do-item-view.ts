@@ -41,7 +41,7 @@ export class ToDoItemView {
 
   protected emptyDescription = toSignal(
     this.translate.stream('view.empty'),
-    { initialValue: EMPTY_DESCRIPTION }
+    { initialValue: EMPTY_DESCRIPTION },
   );
 
   protected description: Signal<string> = computed(() => this.item()?.description || this.emptyDescription());

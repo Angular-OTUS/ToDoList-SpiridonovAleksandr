@@ -12,8 +12,8 @@ import { LANGUAGES } from './tokens/languages.token';
   providers: [
     {
       provide: LANGUAGES,
-      useValue: ['en', 'ru']
-    }
+      useValue: ['en', 'ru'],
+    },
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
@@ -23,7 +23,7 @@ export class App {
   private readonly languages: Language[] = inject(LANGUAGES);
   protected readonly title: Signal<string> = toSignal(
     this.translate.stream('app.title'),
-    { initialValue: 'TasksBoard' }
+    { initialValue: 'TasksBoard' },
   );
 
   constructor() {
