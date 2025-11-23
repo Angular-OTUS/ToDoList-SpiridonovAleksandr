@@ -1,4 +1,7 @@
-<select (change)="switchTo($event)" [value]="currentLang()">
+<select
+  class="select"
+  (change)="switchTo($event)"
+  [value]="currentLang()">
   @for (lang of languages(); track $index) {
     <option [value]="lang">{{ lang }}</option>
   }

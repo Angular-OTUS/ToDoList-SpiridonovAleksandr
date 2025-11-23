@@ -2,13 +2,16 @@
   <span>
     <ng-content/>
   </span>
-  <app-button
-    actionType="add"
-    tooltipPosition="under"
-    (click)="showModal.set(true)"
-  >
-    New
-  </app-button>
+  <div class="right-block-container">
+    <app-button
+      actionType="add"
+      tooltipPosition="under"
+      (click)="showModal.set(true)"
+    >
+      New
+    </app-button>
+    <app-language-dropdown/>
+  </div>
 </div>
 
 <app-modal [isVisible]="showModal()" (closeEvent)="onModalClose()">

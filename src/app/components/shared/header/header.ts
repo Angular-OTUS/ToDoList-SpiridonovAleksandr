@@ -3,6 +3,7 @@ import { Button } from '../button/button';
 import { Modal } from '../modal/modal';
 import { ToDoCreateItem } from '../../modules/to-do-create-item/to-do-create-item';
 import { ToDoDto } from '../../../model/to-do';
+import { LanguageDropdown } from '../dropdown/language-dropdown';
 
 @Component({
   selector: 'app-header',
@@ -10,6 +11,7 @@ import { ToDoDto } from '../../../model/to-do';
     Button,
     Modal,
     ToDoCreateItem,
+    LanguageDropdown,
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
