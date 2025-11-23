@@ -4,6 +4,7 @@ import { Modal } from '../modal/modal';
 import { ToDoCreateItem } from '../../modules/to-do-create-item/to-do-create-item';
 import { ToDoDto } from '../../../model/to-do';
 import { LanguageDropdown } from '../language-dropdown/language-dropdown';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +13,7 @@ import { LanguageDropdown } from '../language-dropdown/language-dropdown';
     Modal,
     ToDoCreateItem,
     LanguageDropdown,
+    TranslatePipe,
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss',

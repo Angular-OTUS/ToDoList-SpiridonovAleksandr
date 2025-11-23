@@ -8,14 +8,14 @@
       tooltipPosition="under"
       (click)="showModal.set(true)"
     >
-      New
+      {{ 'creation.new-btn' | translate }}
     </app-button>
     <app-language-dropdown/>
   </div>
 </div>
 
 <app-modal [isVisible]="showModal()" (closeEvent)="onModalClose()">
-  <div modal-title>Create new task</div>
+  <div modal-title>{{ 'creation.title' | translate }}</div>
   <app-to-do-create-item
     (taskToAdd)="onTaskAdded($event)"
   />

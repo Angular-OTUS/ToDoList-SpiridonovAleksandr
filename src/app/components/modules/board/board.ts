@@ -10,6 +10,7 @@ import { ToastType } from '../../../model/toast-dto';
 import { ToDo, ToDoDto, ToDoStatus } from '../../../model/to-do';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { ToDoStore } from '../../../state/to-do.store';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-board',
@@ -19,6 +20,7 @@ import { ToDoStore } from '../../../state/to-do.store';
     LoadingSpinner,
     ToDoListItem,
     DragDropModule,
+    TranslatePipe,
   ],
   providers: [
     {

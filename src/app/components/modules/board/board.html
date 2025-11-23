@@ -2,7 +2,7 @@
   <app-header
     (taskToAdd)="addTask($event)"
   >
-    Board
+    {{ 'navigation.board' | translate }}
   </app-header>
   <app-loading-spinner [isLoading]="store.isLoading()">
     @if (store.ids().length === 0) {
@@ -17,7 +17,7 @@
           (cdkDropListDropped)="onDrop($event, 'CREATED')"
           class="task-list-wrapper"
         >
-          <h3>Created</h3>
+          <h3>{{ 'board.created' | translate }}</h3>
           <ul class="task-list">
             @for (toDo of store.createdToDos(); track toDo.id) {
               <li cdkDrag [cdkDragData]="toDo" class="drag-item">
@@ -38,7 +38,7 @@
           (cdkDropListDropped)="onDrop($event, 'IN_PROGRESS')"
           class="task-list-wrapper"
         >
-          <h3>In progress</h3>
+          <h3>{{ 'board.in-progress' | translate }}</h3>
           <ul class="task-list">
             @for (toDo of store.inProgressToDos(); track toDo.id) {
               <li cdkDrag [cdkDragData]="toDo" class="drag-item">
@@ -59,7 +59,7 @@
           (cdkDropListDropped)="onDrop($event, 'COMPLETED')"
           class="task-list-wrapper"
         >
-          <h3>Completed</h3>
+          <h3>{{ 'board.completed' | translate }}</h3>
           <ul class="task-list">
             @for (toDo of store.completedToDos(); track toDo.id) {
               <li cdkDrag [cdkDragData]="toDo" class="drag-item">

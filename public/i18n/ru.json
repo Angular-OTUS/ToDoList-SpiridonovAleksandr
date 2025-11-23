@@ -5,5 +5,27 @@
   "navigation": {
     "backlog": "В работу",
     "board": "Доска"
+  },
+  "creation": {
+    "new-btn": "Создать",
+    "title": "Создать новую задачу",
+    "input-placeholder": "Новая задача...",
+    "description-placeholder": "Добавьте описание задачи...",
+    "add-btn": "Добавить"
+  },
+  "view": {
+    "title": "Описание",
+    "empty": "Не заполнено",
+    "in-progress-btn": "В процессе >>",
+    "completed-btn": "Завершено >>"
+  },
+  "list": {
+    "delete-btn": "Удалить",
+    "save-btn": "Сохранить"
+  },
+  "board": {
+    "created": "В работу",
+    "in-progress": "В процессе",
+    "completed": "Завершено"
   }
 }

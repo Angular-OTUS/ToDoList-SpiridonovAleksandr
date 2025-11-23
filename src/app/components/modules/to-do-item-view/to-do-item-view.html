@@ -9,13 +9,13 @@
           actionType="save"
           (click)="onStatusChange($event, 'IN_PROGRESS')"
         >
-          In progress >>
+          {{ 'view.in-progress-btn' | translate }}
         </app-button>
         <app-button
           actionType="save"
           (click)="onStatusChange($event, 'COMPLETED')"
         >
-          Completed >>
+          {{ 'view.completed-btn' | translate }}
         </app-button>
       </div>
     }

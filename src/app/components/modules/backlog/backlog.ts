@@ -13,6 +13,7 @@ import { ToDo, ToDoDto } from '../../../model/to-do';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EmptyList } from '../../shared/empty-list/empty-list';
 import { ToDoStore } from '../../../state/to-do.store';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-backlog',
@@ -23,6 +24,7 @@ import { ToDoStore } from '../../../state/to-do.store';
     ToDoListItem,
     Tooltip,
     EmptyList,
+    TranslatePipe,
   ],
   providers: [
     {

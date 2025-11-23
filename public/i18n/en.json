@@ -5,5 +5,27 @@
   "navigation": {
     "backlog": "Backlog",
     "board": "Board"
+  },
+  "creation": {
+    "new-btn": "New",
+    "title": "Create new task",
+    "input-placeholder": "New task...",
+    "description-placeholder": "Add task description...",
+    "add-btn": "Add"
+  },
+  "view": {
+    "title": "Description",
+    "empty": "Not added",
+    "in-progress-btn": "In progress >>",
+    "completed-btn": "Completed >>"
+  },
+  "list": {
+    "delete-btn": "Delete",
+    "save-btn": "Save"
+  },
+  "board": {
+    "created": "Created",
+    "in-progress": "In progress",
+    "completed": "Completed"
   }
 }

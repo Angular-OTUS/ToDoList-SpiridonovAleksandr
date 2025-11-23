@@ -14,7 +14,7 @@
     actionType="delete"
     (clicked)="onDelete($event, item().id)"
   >
-    Delete
+    {{ 'list.delete-btn' | translate }}
   </app-button>
 </ng-template>
 
@@ -31,6 +31,6 @@
     [isDisabled]="isNewTextEmpty()"
     (clicked)="onSave($event)"
   >
-    Save
+    {{ 'list.save-btn' | translate }}
   </app-button>
 </ng-template>

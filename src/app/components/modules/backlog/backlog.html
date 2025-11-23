@@ -2,7 +2,7 @@
   <app-header
     (taskToAdd)="addTask($event)"
   >
-    Backlog
+    {{ 'navigation.backlog' | translate }}
   </app-header>
   <app-loading-spinner [isLoading]="store.isLoading()">
     @if (store.createdToDos().length === 0) {

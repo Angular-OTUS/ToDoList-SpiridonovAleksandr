@@ -11,6 +11,7 @@ import {
 import { Button } from '../../shared/button/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToDoDto } from '../../../model/to-do';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-to-do-create-item',
@@ -18,6 +19,7 @@ import { ToDoDto } from '../../../model/to-do';
     Button,
     ReactiveFormsModule,
     FormsModule,
+    TranslatePipe,
   ],
   templateUrl: './to-do-create-item.html',
   styleUrl: './to-do-create-item.scss',
