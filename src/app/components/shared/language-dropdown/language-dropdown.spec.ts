@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Backlog } from './backlog';
+import { LanguageDropdown } from './language-dropdown';
 
-describe('Backlog', () => {
-  let component: Backlog;
-  let fixture: ComponentFixture<Backlog>;
+describe('LanguageDropdown', () => {
+  let component: LanguageDropdown;
+  let fixture: ComponentFixture<LanguageDropdown>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Backlog],
+      imports: [LanguageDropdown],
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Backlog);
+    fixture = TestBed.createComponent(LanguageDropdown);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

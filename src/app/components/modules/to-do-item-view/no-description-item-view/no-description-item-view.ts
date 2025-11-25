@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { TranslateService } from '@ngx-translate/core';
 
-const DEFAULT_TITLE = 'Описание';
+const DEFAULT_TITLE = 'Description';
 
 @Component({
   selector: 'app-no-description-item-view',
@@ -10,5 +12,9 @@ const DEFAULT_TITLE = 'Описание';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NoDescriptionItemView {
-  protected title: string = DEFAULT_TITLE;
+  private readonly translate = inject(TranslateService);
+  protected title = toSignal(
+    this.translate.stream('view.title'),
+    { initialValue: DEFAULT_TITLE },
+  );
 }

@@ -17,6 +17,7 @@ import { ToDo } from '../../../model/to-do';
 import { Button } from '../../shared/button/button';
 import { FormsModule } from '@angular/forms';
 import { NgTemplateOutlet } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-to-do-list-item',
@@ -24,6 +25,7 @@ import { NgTemplateOutlet } from '@angular/common';
     Button,
     FormsModule,
     NgTemplateOutlet,
+    TranslatePipe,
   ],
   templateUrl: './to-do-list-item.html',
   styleUrl: './to-do-list-item.scss',

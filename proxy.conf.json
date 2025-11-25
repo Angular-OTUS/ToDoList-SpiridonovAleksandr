@@ -1,6 +1,6 @@
 {
   "/todos": {
-    "target": "http://94.228.115.56:8080",
+    "target": "http://212.113.121.16:8080",
     "secure": false,
     "logLevel": "debug"
   }

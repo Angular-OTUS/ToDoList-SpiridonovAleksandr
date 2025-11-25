@@ -7,6 +7,7 @@ import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
 import { ToDoEventService } from '../../../services/to-do-event.service';
 import { Button } from '../../shared/button/button';
 import { ToDoStore } from '../../../state/to-do.store';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 const EMPTY_DESCRIPTION = 'Не заполнено';
 
@@ -15,6 +16,7 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
   imports: [
     LoadingSpinner,
     Button,
+    TranslatePipe,
   ],
   templateUrl: './to-do-item-view.html',
   styleUrl: './to-do-item-view.scss',
@@ -22,6 +24,7 @@ const EMPTY_DESCRIPTION = 'Не заполнено';
 })
 export class ToDoItemView {
   private readonly toDoEventService: ToDoEventService = inject(ToDoEventService);
+  private readonly translate = inject(TranslateService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   protected readonly store = inject(ToDoStore);
 
@@ -36,7 +39,12 @@ export class ToDoItemView {
     { initialValue: null },
   );
 
-  protected description: Signal<string> = computed(() => this.item()?.description || EMPTY_DESCRIPTION);
+  protected emptyDescription = toSignal(
+    this.translate.stream('view.empty'),
+    { initialValue: EMPTY_DESCRIPTION },
+  );
+
+  protected description: Signal<string> = computed(() => this.item()?.description || this.emptyDescription());
 
   protected onStatusChange(event: Event, targetStatus: ToDoStatus) {
     event.stopPropagation();

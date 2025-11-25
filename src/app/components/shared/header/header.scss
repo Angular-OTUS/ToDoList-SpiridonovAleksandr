@@ -14,7 +14,13 @@
     align-items: center;
   }
 
-  app-button {
-    width: 100px;
+  .right-block-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+
+    app-button {
+      width: 100px;
+    }
   }
 }

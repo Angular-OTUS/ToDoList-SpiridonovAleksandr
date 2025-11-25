@@ -3,16 +3,20 @@ import { Button } from '../button/button';
 import { Modal } from '../modal/modal';
 import { ToDoCreateItem } from '../../modules/to-do-create-item/to-do-create-item';
 import { ToDoDto } from '../../../model/to-do';
+import { LanguageDropdown } from '../language-dropdown/language-dropdown';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
   imports: [
     Button,
     Modal,
-    ToDoCreateItem
+    ToDoCreateItem,
+    LanguageDropdown,
+    TranslatePipe,
   ],
   templateUrl: './header.html',
-  styleUrl: './header.scss'
+  styleUrl: './header.scss',
 })
 export class Header {
   protected showModal: WritableSignal<boolean> = signal<boolean>(false);

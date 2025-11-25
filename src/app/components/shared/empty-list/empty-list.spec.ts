@@ -8,7 +8,7 @@ describe('EmptyList', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EmptyList]
+      imports: [EmptyList],
     })
     .compileComponents();
 

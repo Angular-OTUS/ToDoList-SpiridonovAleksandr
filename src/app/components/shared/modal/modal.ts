@@ -5,7 +5,7 @@ import {
   input,
   InputSignal,
   output,
-  OutputEmitterRef
+  OutputEmitterRef,
 } from '@angular/core';
 
 @Component({
@@ -13,7 +13,7 @@ import {
   imports: [],
   templateUrl: './modal.html',
   styleUrl: './modal.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Modal {
   public isVisible: InputSignal<boolean> = input.required<boolean>();

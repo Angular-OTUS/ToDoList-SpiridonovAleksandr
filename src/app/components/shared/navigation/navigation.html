@@ -6,12 +6,12 @@
     [routerLinkActive]="['active']"
     [routerLinkActiveOptions]="{ exact: true }"
   >
-    <a [routerLink]="['backlog']">Backlog</a>
+    <a [routerLink]="['backlog']">{{ 'navigation.backlog' | translate }}</a>
   </div>
   <div
     [routerLinkActive]="['active']"
     [routerLinkActiveOptions]="{ exact: true }"
   >
-    <a [routerLink]="['board']">Board</a>
+    <a [routerLink]="['board']">{{ 'navigation.board' | translate }}</a>
   </div>
 </div>

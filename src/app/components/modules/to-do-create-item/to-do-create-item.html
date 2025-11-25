@@ -1,7 +1,7 @@
 <div class="add-task-container">
   <input
     type="text"
-    placeholder="Новая задача..."
+    placeholder="{{ 'creation.input-placeholder' | translate }}"
     class="new-task-input"
     [(ngModel)]="newTask"
   />
@@ -10,13 +10,13 @@
     [isDisabled]="isNewTaskEmpty()"
     (clicked)="onAdding()"
   >
-    Add
+    {{ 'creation.add-btn' | translate }}
   </app-button>
 </div>
 <div class="add-description-container">
   <textarea
     rows="3"
-    placeholder="Добавьте описание задачи..."
+    placeholder="{{ 'creation.description-placeholder' | translate }}"
     class="new-description"
     [(ngModel)]="newTaskDescription"
   ></textarea>

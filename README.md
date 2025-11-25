@@ -38,3 +38,7 @@ todo create item component, сервис для запросов в api
 #### Homework 9:
 
 Добавлен NgRx Signal Store, проведен рефакторинг
+
+#### Homework 10:
+
+Добавлена локализация

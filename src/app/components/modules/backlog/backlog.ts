@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { Header } from '../../shared/header/header';
 import { LoadingSpinner } from '../../shared/loading-spinner/loading-spinner';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
@@ -10,9 +19,10 @@ import { ToastType } from '../../../model/toast-dto';
 import { Tooltip } from '../../../directives/tooltip';
 import { filter } from 'rxjs';
 import { ToDo, ToDoDto } from '../../../model/to-do';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { EmptyList } from '../../shared/empty-list/empty-list';
 import { ToDoStore } from '../../../state/to-do.store';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-backlog',
@@ -22,15 +32,16 @@ import { ToDoStore } from '../../../state/to-do.store';
     RouterOutlet,
     ToDoListItem,
     Tooltip,
-    EmptyList
+    EmptyList,
+    TranslatePipe,
   ],
   providers: [
     {
       provide: TODO_TOAST_MESSAGES,
       useValue: {
-        success: 'Задача успешно добавлена',
-        warning: 'Задача удалена',
-        info: 'Задача изменена',
+        success: 'toast.add',
+        warning: 'toast.delete',
+        info: 'toast.save',
       },
     },
   ],
@@ -44,10 +55,31 @@ export class Backlog implements OnInit {
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly toastService: ToastService = inject(ToastService);
   private readonly toDoEventService: ToDoEventService = inject(ToDoEventService);
+  private readonly translate = inject(TranslateService);
   private readonly toastMessages: Record<ToastType, string> = inject(TODO_TOAST_MESSAGES);
   protected readonly store = inject(ToDoStore);
 
   protected selectedItemId: WritableSignal<number | null> = signal<number | null>(null);
+
+  protected tooltipText: Signal<string> = toSignal(
+    this.translate.stream('tooltip.task-description'),
+    { initialValue: null },
+  );
+
+  private addToastMessage: Signal<string> = toSignal(
+    this.translate.stream(this.toastMessages.success),
+    { initialValue: null },
+  );
+
+  private deleteToastMessage: Signal<string> = toSignal(
+    this.translate.stream(this.toastMessages.warning),
+    { initialValue: null },
+  );
+
+  private saveToastMessage: Signal<string> = toSignal(
+    this.translate.stream(this.toastMessages.info),
+    { initialValue: null },
+  );
 
   ngOnInit(): void {
     this.store.getAll();
@@ -57,7 +89,7 @@ export class Backlog implements OnInit {
       .subscribe(task => this.saveTask(task));
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
-      takeUntilDestroyed(this.destroyRef)
+      takeUntilDestroyed(this.destroyRef),
     ).subscribe((event) => {
       if (event.urlAfterRedirects === '/backlog') {
         this.selectedItemId.set(null);
@@ -68,21 +100,21 @@ export class Backlog implements OnInit {
   protected addTask(task: ToDoDto) {
     this.store.add(task);
     this.selectedItemId.set(null);
-    this.toastService.showToast(this.toastMessages.success, 'success');
+    this.toastService.showToast(this.addToastMessage(), 'success');
     this.router.navigate(['backlog']);
   }
 
   protected deleteTask(id: number) {
     this.store.removeById(id);
     this.selectedItemId.set(null);
-    this.toastService.showToast(this.toastMessages.warning, 'warning');
+    this.toastService.showToast(this.deleteToastMessage(), 'warning');
     this.router.navigate(['backlog']);
   }
 
   protected saveTask(toDo: ToDo) {
     this.store.update(toDo);
     this.hideAllTooltips();
-    this.toastService.showToast(this.toastMessages.info, 'info');
+    this.toastService.showToast(this.saveToastMessage(), 'info');
     this.router.navigate(['backlog']);
   }
 
